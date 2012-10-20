@@ -1,8 +1,6 @@
 <?php
 namespace Segdmin\Framework;
 
-use Segdmin\Framework\Http\Request;
-
 /**
  * Description of Application
  *
@@ -18,6 +16,7 @@ class Application
 	{
 		$this->webPath = $webPath;
 		$this->basePath = $basePath;
+		$this->router = Routing\RouterFactory::createRouterByConfigData(include $this->getBasePath().'/config/routes.php');
 	}
 	
 	public function getWebPath()
@@ -30,7 +29,7 @@ class Application
 		return $this->basePath;
 	}
 
-	public function handle(Request $request)
+	public function handle(Http\Request $request)
 	{
 		return new Http\Response();
 	}

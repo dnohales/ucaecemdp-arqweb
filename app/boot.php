@@ -1,5 +1,5 @@
 <?php
-namespace Segdmin;
+namespace {
 
 use \InvalidArgumentException;
 
@@ -58,3 +58,5 @@ class ClassLoader
 //Registrar el autoloader
 $loader = new ClassLoader(__DIR__);
 $loader->register();
+
+}

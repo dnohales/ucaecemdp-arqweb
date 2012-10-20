@@ -6,6 +6,24 @@ namespace Segdmin\Framework\Routing;
  *
  * @author eagleoneraptor
  */
-class RouterFactory {
-	//put your code here
+class RouterFactory
+{
+	static public function createRouterByConfigData(array $data)
+	{
+		$routes = array();
+		
+		foreach($data as $routeName => $routeData){
+			if(!isset($routeData['roles'])){
+				$routeData['roles'] = array();
+			}
+			$routes[$routeName] = new Route($routeName, $routeData['path'], $routeData['controller'], $routeData['roles']);
+		}
+		
+		$router = new Router();
+		$router->setRoutes($routes);
+		
+		return $router;
+	}
 }
+
+?>
