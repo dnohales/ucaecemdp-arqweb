@@ -1,8 +1,6 @@
 <?php
 namespace {
 
-use \InvalidArgumentException;
-
 /**
  * Esta clase se encarga de autocargar los archivos PHP con sus respectivas
  * clases.
@@ -30,14 +28,14 @@ class ClassLoader
 		$file = $this->findFileByClass($class);
 		
 		if(!file_exists($file)){
-			throw new InvalidArgumentException(sprintf('No se puede cargar la clase "%s" ya que no se encontró el archivo "%s"', $class, $file));
+			throw new \RuntimeException(sprintf('No se puede cargar la clase "%s" ya que no se encontró el archivo "%s"', $class, $file));
 		} else {
 			require $this->findFileByClass($class);
 			
 			//Se verifica si la clase existe incluso los traits para mantener
 			//compatibilidad con PHP 5.4
 			if(!class_exists($class) && !interface_exists($class) && (!function_exists('trait_exists') || !trait_exists($class))) {
-                throw new InvalidArgumentException(sprintf('No se pudo cargar la clase "%s", asegúres que la clase declarada se llame igual que el archivo donde se ha guardado.', $class));
+                throw new \RuntimeException(sprintf('No se pudo cargar la clase "%s", asegúres que la clase declarada se llame igual que el archivo donde se ha guardado.', $class));
             }
 		}
 	}
