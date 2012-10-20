@@ -41,7 +41,9 @@ class Router
 	
 	public function generate($routeName, array $parameters = array(), $absolute = false)
 	{
-		
+		$route = $this->getRoute($routeName);
+		$pathName = str_replace(array_keys($parameters), array_values($parameters), $route->getPath());
+		return rtrim($this->getContextRequest()->getBaseRoutePath(), '/').'/'.$pathName;
 	}
 	
 	public function match(Request $request)

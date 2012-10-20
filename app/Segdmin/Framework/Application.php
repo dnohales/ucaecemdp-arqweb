@@ -21,11 +21,18 @@ class Application
 	 */
 	private $currentRequest;
 	
+	/**
+	 * @var Templating\TemplateManager 
+	 */
+	private $templateManager;
+	
 	public function __construct($webPath, $basePath)
 	{
 		$this->webPath = $webPath;
 		$this->basePath = $basePath;
 		$this->router = Routing\RouterFactory::createRouterByConfigData(include $this->getBasePath().'/config/routes.php');
+		$this->templateManager = new Templating\TemplateManager($this->basePath.'/Segdmin/View');
+		$this->templateManager->setApplication($this);
 	}
 	
 	public function getWebPath()
@@ -46,6 +53,11 @@ class Application
 	public function getCurrentRequest()
 	{
 		return $this->currentRequest;
+	}
+	
+	public function getTemplateManager()
+	{
+		return $this->templateManager;
 	}
 
 	public function handle(Http\Request $request)
@@ -105,10 +117,10 @@ class Application
 	{
 		if($response instanceof Http\Response){
 			return $response;
-		} else if(is_scalar($response) || $response === null){
+		} else if(is_scalar($response)){
 			return new Http\Response((string)$response);
 		} else {
-			throw new \Exception('El controlador debe devolver un objeto Segdmin\Framework\Http\Response, un escalar o null');
+			throw new \Exception('El controlador debe devolver un objeto Segdmin\Framework\Http\Response o un escalar');
 		}
 	}
 }

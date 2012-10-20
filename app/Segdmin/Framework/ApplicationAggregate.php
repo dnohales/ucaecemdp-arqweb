@@ -10,6 +10,9 @@ class ApplicationAggregate implements ApplicationAggregateInterface
 {
 	protected $application;
 	
+	/**
+	 * @return Application 
+	 */
 	public function getApplication()
 	{
 		return $this->application;
