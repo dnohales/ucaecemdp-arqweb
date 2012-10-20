@@ -2,6 +2,7 @@
 namespace Segdmin\Framework\Routing;
 
 use Segdmin\Framework\Http\Request;
+use Segdmin\Framework\Exception\RouterException;
 
 /**
  * Description of Router
@@ -11,6 +12,7 @@ use Segdmin\Framework\Http\Request;
 class Router
 {
 	private $routes = array();
+	private $contextRequest = null;
 	
 	public function getRoutes()
 	{
@@ -22,14 +24,37 @@ class Router
 		$this->routes = $routes;
 	}
 	
-	public function generatePath($routeName, array $parameters)
+	public function getRoute($name)
+	{
+		return $this->routes[$name];
+	}
+	
+	public function getContextRequest()
+	{
+		return $this->contextRequest;
+	}
+
+	public function setContextRequest(Request $contextRequest)
+	{
+		$this->contextRequest = $contextRequest;
+	}
+	
+	public function generate($routeName, array $parameters = array(), $absolute = false)
 	{
 		
 	}
 	
-	public function resolveRequest(Request $request)
+	public function match(Request $request)
 	{
+		$resolution = new RouterResolution();
 		
+		foreach($this->getRoutes() as $route){
+			if($resolution->match($route, $request->getPathName())){
+				return $resolution;
+			}
+		}
+		
+		throw new RouterException('No se puede encontrar la ruta '.$request->getPathName());
 	}
 	
 }

@@ -72,7 +72,7 @@ class Route
 		
 		$this->controller = $controller;
 		$this->controllerClass = 'Segdmin\\Controller\\'.$controllerParts[0].'Controller';
-		$this->controllerMethod = $controllerParts[1];
+		$this->controllerMethod = $controllerParts[1].'Action';
 	}
 
 	public function getRoles()
