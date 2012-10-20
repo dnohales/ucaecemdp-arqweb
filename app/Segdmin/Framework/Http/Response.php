@@ -12,12 +12,12 @@ use Segdmin\Framework\Util\ArrayCollection;
 class Response
 {
 
-	protected $headers;
-	protected $content;
-	protected $statusCode;
-	protected $statusText;
-	protected $charset;
-	protected $contentType;
+	private $headers;
+	private $content;
+	private $statusCode;
+	private $statusText;
+	private $charset;
+	private $contentType;
 
 	public function __construct($content = '', $status = 200, array $headers = array())
 	{
