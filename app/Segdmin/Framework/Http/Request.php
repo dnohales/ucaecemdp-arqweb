@@ -10,6 +10,9 @@ use Segdmin\Framework\Util\ArrayCollection;
  */
 class Request
 {
+	const HTTP_PORT = 80;
+	const HTTPS_PORT = 443;
+	
 	private $_query;
 	private $_post;
 	private $_attributes;
@@ -156,6 +159,42 @@ class Request
 	public function getPathName()
 	{
 		return $this->pathName;
+	}
+	
+	public function isSecure()
+	{
+		return $this->server()->get('HTTPS') != '';
+	}
+	
+	public function getScheme()
+	{
+		return $this->isSecure()? 'https':'http';
+	}
+	
+	public function getHost()
+	{
+		$hostName = $this->server()->get('HTTP_HOST');
+		$port = $this->server()->get('SERVER_PORT');
+		
+		if(!$this->isSecure() && $port == self::HTTP_PORT || $this->isSecure() && $port == self::HTTPS_PORT){
+			return $hostName;
+		} else {
+			return "$hostName:$port";
+		}
+	}
+	
+	public function getUri()
+	{
+		return $this->server()->get('REQUEST_URI');
+	}
+	
+	public function absolutize($uri, $absolutize = true)
+	{
+		if($absolutize){
+			return $this->getScheme().'://'.$this->getHost().$uri;
+		} else {
+			return $uri;
+		}
 	}
 
 }

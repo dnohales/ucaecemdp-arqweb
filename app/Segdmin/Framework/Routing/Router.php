@@ -43,7 +43,8 @@ class Router
 	{
 		$route = $this->getRoute($routeName);
 		$pathName = str_replace(array_keys($parameters), array_values($parameters), $route->getPath());
-		return rtrim($this->getContextRequest()->getBaseRoutePath(), '/').'/'.$pathName;
+		$uri = rtrim($this->getContextRequest()->getBaseRoutePath(), '/').'/'.ltrim($pathName, '/');
+		return $this->getContextRequest()->absolutize($uri, $absolute);
 	}
 	
 	public function match(Request $request)
