@@ -147,8 +147,8 @@ class View
 	
 	private function invokeViewFile()
 	{
-		extract($this->getParameters());
-		include($this->getViewFile());
+		$context = new ViewContext($this);
+		$context->invokeView();
 	}
 	
 	public function render()
