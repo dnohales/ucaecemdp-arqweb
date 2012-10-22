@@ -1,0 +1,59 @@
+admin
+  id
+  email
+  password
+  name
+  lastname
+
+producer
+  id
+  email
+  password
+  name
+  lastname
+  dni
+  address
+  phones
+
+company
+  id
+  email
+  password
+  name
+  address
+  liability	(responsabilidad civil)
+  tax_end	(consumidor final)
+  tax_mono	(monotributista)
+  tax_resp	(responsable inscripto)
+  comission
+  discount
+
+taker
+  id
+  id_producer
+  email
+  name
+  lastname
+  address
+  dni
+  cuit
+  birth
+  phones
+  condition	(condición impositiva)
+
+coverage
+  id
+  id_company
+  description
+  rate
+
+request
+  id
+  id_tomador
+  id_cobertura
+  accepted	(flag:null=>no evaluada/ 0=>rechazada/ 1=>aceptada)
+  data		(datos del vehículo)
+  model
+  insured	(suma asegurada)
+  comission
+  comment	(comentario que la compañía agrega cuando evalúa la solicitud)
