@@ -12,6 +12,11 @@ class Controller extends ApplicationAggregate
 	{
 		return new Http\Response($this->getApplication()->getTemplateManager()->renderView($viewName, $parameters));
 	}
+	
+	public function getOrm()
+	{
+		return $this->getApplication()->getOrm();
+	}
 }
 
 ?>

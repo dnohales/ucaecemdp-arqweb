@@ -26,6 +26,8 @@ class Application
 	 */
 	private $templateManager;
 	
+	private $orm;
+	
 	public function __construct($webPath, $basePath)
 	{
 		$this->webPath = $webPath;
@@ -33,6 +35,7 @@ class Application
 		$this->router = Routing\RouterFactory::createRouterByConfigData(include $this->getBasePath().'/config/routes.php');
 		$this->templateManager = new Templating\TemplateManager($this->basePath.'/Segdmin/View');
 		$this->templateManager->setApplication($this);
+		$this->orm = new Database\ORM($this->createPdo());
 	}
 	
 	public function getWebPath()
@@ -58,6 +61,11 @@ class Application
 	public function getTemplateManager()
 	{
 		return $this->templateManager;
+	}
+	
+	public function getOrm()
+	{
+		return $this->orm;
 	}
 
 	public function handle(Http\Request $request)
@@ -122,6 +130,12 @@ class Application
 		} else {
 			throw new \Exception('El controlador debe devolver un objeto Segdmin\Framework\Http\Response o un escalar');
 		}
+	}
+	
+	private function createPdo()
+	{
+		$config = include($this->getBasePath().'/config/database.php');
+		return new \PDO($config['dsn'], $config['username'], $config['password'], $config['options']);
 	}
 }
 
