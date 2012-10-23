@@ -10,4 +10,3 @@ class Id extends Int
 {
 }
 
-?>

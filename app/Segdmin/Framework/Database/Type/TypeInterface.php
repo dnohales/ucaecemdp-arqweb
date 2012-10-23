@@ -12,4 +12,3 @@ interface TypeInterface
 	function bindFormat();
 }
 
-?>

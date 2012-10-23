@@ -24,4 +24,3 @@ class Float implements TypeInterface
 	}
 }
 
-?>

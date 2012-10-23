@@ -24,4 +24,3 @@ class Int implements TypeInterface
 	}
 }
 
-?>

@@ -11,4 +11,3 @@ interface ApplicationAggregateInterface
 	function setApplication(Application $application);
 }
 
-?>

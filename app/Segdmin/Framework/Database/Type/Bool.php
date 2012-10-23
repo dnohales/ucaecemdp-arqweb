@@ -24,4 +24,3 @@ class Bool implements TypeInterface
 	}
 }
 
-?>

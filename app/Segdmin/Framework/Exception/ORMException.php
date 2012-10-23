@@ -11,4 +11,3 @@ class ORMException extends \Exception
 	//put your code here
 }
 
-?>

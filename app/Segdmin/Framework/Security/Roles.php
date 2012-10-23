@@ -15,4 +15,3 @@ class Roles
 	const PRODUCER = 'producer';
 }
 
-?>

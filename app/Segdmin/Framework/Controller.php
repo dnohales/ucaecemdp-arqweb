@@ -19,4 +19,3 @@ class Controller extends ApplicationAggregate
 	}
 }
 
-?>

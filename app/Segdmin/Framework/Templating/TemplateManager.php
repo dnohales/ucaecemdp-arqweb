@@ -47,5 +47,3 @@ class TemplateManager extends ApplicationAggregate
 		return $view->render();
 	}
 }
-
-?>

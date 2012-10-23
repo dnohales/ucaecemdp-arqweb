@@ -24,4 +24,3 @@ class DateTime implements TypeInterface
 	}
 }
 
-?>

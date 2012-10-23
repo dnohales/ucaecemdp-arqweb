@@ -10,4 +10,3 @@ class TemplatingException extends \Exception
 {
 }
 
-?>

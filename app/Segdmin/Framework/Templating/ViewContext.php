@@ -67,5 +67,3 @@ class ViewContext
 		include($this->view->getViewFile());
 	}
 }
-
-?>
