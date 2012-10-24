@@ -14,8 +14,10 @@ class View
 	private $viewFile;
 	private $parameters;
 	private $extendedViewName;
-	private $rawContent;
 	private $afterExtendReached;
+	private $blockStack;
+	private $mainBlock;
+	private $blocks;
 	private $currentBlock;
 	
 	public function __construct(TemplateManager $templateManager, $viewFile, array $parameters)
@@ -25,6 +27,9 @@ class View
 		$this->parameters = $parameters;
 		$this->rawContent = array();
 		$this->afterExtendReached = false;
+		$this->blockStack = array();
+		$this->mainBlock = new ViewBlock('main');
+		$this->blocks = array();
 	}
 	
 	public function getTemplateManager()
@@ -60,7 +65,8 @@ class View
 		
 		$extendedView = $this->templateManager->createView($this->extendedViewName, $this->parameters);
 		$extendedView->run();
-		$this->rawContent = $extendedView->getRawContent();
+		$this->blocks = $extendedView->blocks;
+		$this->mainBlock = $extendedView->mainBlock;
 		
 		$this->obStart();
 	}
@@ -77,11 +83,7 @@ class View
 			throw new TemplatingException('Debes estar dentro de un bloque para imprimir el contenido del bloque padre');
 		}
 		
-		foreach($this->rawContent as $value){
-			if($value[0] == $this->currentBlock){
-				return $value[1];
-			}
-		}
+		return $this->blocks[$this->currentBlock->getName()]->render();
 	}
 	
 	public function block($blockName)
@@ -90,19 +92,27 @@ class View
 			throw new TemplatingException('El nombre del bloque no puede estar vacío');
 		}
 		
-		if($this->currentBlock){
-			throw new TemplatingException('No puedes llamar bloques de forma anidada');
-		}
-		
 		$this->afterExtendReached = true;
+		$newBlock = new ViewBlock($blockName);
 		
-		if($this->isExtended()){
-			$this->obClean();
+		if(count($this->blockStack) == 0){
+			if($this->isExtended()){
+				//El contenido impreso entre una sobreescritura de bloque y otro se descarta
+				//esto pasa cuando se extienden las vistas
+				$this->obClean();
+			} else {
+				$this->mainBlock->addContent($this->obGetClean());
+				$this->mainBlock->addContent($newBlock);
+			}
 		} else {
-			$this->setRawContent(null, $this->obGetClean());
+			//Si es un bloque anidado, se añade el contenido al bloque padre
+			end($this->blockStack)->addContent($this->obGetClean());
+			end($this->blockStack)->addContent($newBlock);
 		}
 		
-		$this->currentBlock = $blockName;
+		//Añado el bloque a la pila de bloques
+		$this->currentBlock = $newBlock;
+		$this->blockStack[] = $newBlock;
 	}
 	
 	public function endBlock()
@@ -111,10 +121,21 @@ class View
 			throw new TemplatingException('No hay ningún bloque para terminar');
 		}
 		
-		$this->afterExtendReached = true;
+		$this->currentBlock->addContent($this->obGetClean());
 		
-		$this->setRawContent($this->currentBlock, $this->obGetClean());
-		$this->currentBlock = null;
+		//Añado o sobreescribo el bloque actual
+		if(!isset($this->blocks[$this->currentBlock->getName()])){
+			$this->blocks[$this->currentBlock->getName()] = $this->currentBlock;
+		} else {
+			$this->blocks[$this->currentBlock->getName()]->setContent($this->currentBlock->getContent());
+		}
+		
+		//Quito el bloque de la pila
+		array_pop($this->blockStack);
+		
+		//Seteo como bloque actual al padre
+		$endBlock = end($this->blockStack);
+		$this->currentBlock = $endBlock===false? null:$endBlock;
 	}
 	
 	public function asset($name)
@@ -136,10 +157,11 @@ class View
 			throw new TemplatingException('No se cerraron todos los bloques ¿te olvidaste de llamar a $view->endBlock()?');
 		}
 		
+		//Se añade el último contenido de la vista
 		if($this->isExtended()){
 			$this->obClean();
 		} else {
-			$this->setRawContent(null, $this->obGetClean());
+			$this->mainBlock->addContent($this->obGetClean());
 		}
 		
 		$this->obEnd();
@@ -153,31 +175,7 @@ class View
 	
 	public function render()
 	{
-		$str = '';
-		foreach($this->rawContent as $value){
-			$str .= $value[1];
-		}
-		return $str;
-	}
-	
-	private function setRawContent($block, $content)
-	{
-		if($block === null){
-			$this->rawContent[] = array(null, $content);
-		} else {
-			foreach($this->rawContent as $key => $value){
-				if($value[0] == $block){
-					$this->rawContent[$key][1] = $content;
-					return;
-				}
-			}
-			$this->rawContent[] = array($block, $content);
-		}
-	}
-	
-	private function getRawContent()
-	{
-		return $this->rawContent;
+		return $this->mainBlock->render();
 	}
 	
 	private function obClean()
