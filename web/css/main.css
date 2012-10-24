@@ -1,4 +1,42 @@
-body {
-	margin: 0;
+html, body, #container {
+	height: 100%;
+}
+
+#wrapper {
+	min-height: 100%;
+}
+
+#maincontent {
+	overflow:auto;
+	padding-bottom: 50px;
+	padding: 20px;
+}
+
+#header {
+	background-color: #262626;
+	color: lightgrey;
+}
+
+#footer {
+	position: relative;
+	margin-top: -70px;
+	height: 55px;
+	clear:both;
+	padding-top: 15px;
+}
+
+#footer {
+	background-color: #262626;
+	background: linear-gradient(to bottom, rgba(85,85,85,1) 0%,rgba(38,38,38,1) 20%);
+	color: lightgrey;
+}
+
+.footer-note {
+	text-align: center;
+	font-size: 0.8em;
+}
+
+.footer-note p{
+	margin-bottom: 2px;
 }
 
