@@ -1,4 +1,4 @@
-<?php $this->extend(':base') ?>
+<?php $this->extend('Base:full') ?>
 
 <?php $this->block('title'); ?>
 Agregar nuevo tomador - 
