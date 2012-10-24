@@ -5,7 +5,7 @@
 	<div id="wrapper">
 		<div id="header">
 			<div class="container">
-				acá va todo
+				Cosas del header
 			</div>
 		</div>
 		<div class="container">
