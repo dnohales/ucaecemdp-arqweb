@@ -23,22 +23,22 @@ class ORM
 	
 	public function insert($entity)
 	{
-		return $this->repository($entity)->insert($entity);
+		return $this->getRepository($entity)->insert($entity);
 	}
 	
 	public function update($entity)
 	{
-		return $this->repository($entity)->update($entity);
+		return $this->getRepository($entity)->update($entity);
 	}
 	
 	public function remove($entity)
 	{
-		return $this->repository($entity)->remove($entity);
+		return $this->getRepository($entity)->remove($entity);
 	}
 	
 	public function find($repoName, $id)
 	{
-		return $this->repository($repoName)->find($id);
+		return $this->getRepository($repoName)->find($id);
 	}
 	
 	public function execute(\PDOStatement $stmt, array $params = array())
@@ -56,7 +56,7 @@ class ORM
 		}
 	}
 	
-	public function repository($nameOLoQueSea)
+	public function getRepository($nameOLoQueSea)
 	{
 		if(is_object($nameOLoQueSea)){
 			if($nameOLoQueSea instanceof EntityRepository){
@@ -68,6 +68,7 @@ class ORM
 		
 		if(strpos($nameOLoQueSea, '\\') !== false){
 			$repositoryClass = $nameOLoQueSea.'Repository';
+			$repositoryClass = str_replace('\\Model\\', '\\Repository\\', $repositoryClass);
 		} else {
 			$repositoryClass = "Segdmin\\Repository\\{$nameOLoQueSea}Repository";
 		}
