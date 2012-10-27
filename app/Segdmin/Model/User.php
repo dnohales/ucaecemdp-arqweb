@@ -57,7 +57,7 @@ class User extends Entity
 	public function getRoles()
 	{
 		$relatedRole = $this->getRelatedRole();
-		return array($relatedRole ?: Roles::ADMIN);
+		return array($relatedRole ?: Roles::ADMIN, Roles::LOGGEDIN);
 	}
 	
 	private function getRelatedRole()

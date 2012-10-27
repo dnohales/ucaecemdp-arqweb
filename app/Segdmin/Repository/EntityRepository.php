@@ -5,6 +5,7 @@ use Segdmin\Framework\Util\ArrayCollection;
 use Segdmin\Framework\Exception\ORMException;
 use Segdmin\Framework\Database\ORM;
 use Segdmin\Framework\Database\MappingInformation;
+use Segdmin\Framework\Database\Type\Id;
 
 /**
  * Description of BaseRepository
@@ -155,7 +156,7 @@ abstract class EntityRepository
 		$this->bindProperties($stmt, $entity, false);
 		
 		$this->orm->execute($stmt);
-		$idType = new Type\Id();
+		$idType = new Id();
 		$this->setEntityPropertyValue($entity, $mapping->getIdField(), $idType->toNative($this->pdo->lastInsertId()));
 	}
 	
