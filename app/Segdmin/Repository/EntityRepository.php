@@ -1,8 +1,10 @@
 <?php
-namespace Segdmin\Framework\Database;
+namespace Segdmin\Repository;
 
 use Segdmin\Framework\Util\ArrayCollection;
 use Segdmin\Framework\Exception\ORMException;
+use Segdmin\Framework\Database\ORM;
+use Segdmin\Framework\Database\MappingInformation;
 
 /**
  * Description of BaseRepository
@@ -16,17 +18,21 @@ abstract class EntityRepository
 	 */
 	protected $pdo;
 	
+	protected $orm;
+	
 	private $mappingInformation;
 	
-	final public function __construct(\PDO $pdo)
+	final public function __construct(ORM $orm)
 	{
-		$this->pdo = $pdo;
+		$this->orm = $orm;
+		$this->pdo = $orm->getPdo();
 	}
 	
 	public function getEntityClass()
 	{
 		$pos = strrpos(get_class($this), 'Repository');
-		return substr_replace(get_class($this), '', $pos);
+		$className = substr_replace(get_class($this), '', $pos);
+		return str_replace('\\Repository\\', '\\Model\\', $className);
 	}
 	
 	private function setEntityPropertyValue($entity, $property, $value)
@@ -55,6 +61,17 @@ abstract class EntityRepository
 		return !$this->getEntityPropertyValue($entity, $this->getMappingInformation()->getIdField());
 	}
 	
+	private function normalizeQuery($query)
+	{
+		$mapping = $this->getMappingInformation();
+		$replacements = array(
+			'{table}' => $mapping->getTableName(),
+			'{idfield}' => $mapping->getIdField()
+		);
+		
+		return str_replace(array_keys($replacements), array_values($replacements), $query);
+	}
+	
 	public function load($row)
 	{
 		if(!$row){
@@ -62,8 +79,8 @@ abstract class EntityRepository
 		}
 		
 		$mapping = $this->getMappingInformation();
-		$reflection = new \ReflectionClass($this->getEntityClass());
-		$instance = $reflection->newInstance();
+		$entityClass = $this->getEntityClass();
+		$instance = new $entityClass($this->orm);
 		
 		foreach($mapping->getProperties() as $name => $type){
 			$this->setEntityPropertyValue($instance, $name, $type->toNative($row[$name]));
@@ -81,46 +98,63 @@ abstract class EntityRepository
 		return $entities;
 	}
 	
+	public function loadByQuery($query, array $params = array())
+	{
+		$stmt = $this->pdo->prepare($this->normalizeQuery($query));
+		$this->orm->execute($stmt, $params);
+		
+		return $this->load($stmt->fetch(\PDO::FETCH_ASSOC));
+	}
+	
+	public function loadAllByQuery($query, array $params = array())
+	{
+		$stmt = $this->pdo->prepare($this->normalizeQuery($query));
+		$this->orm->execute($stmt, $params);
+		
+		return $this->loadAll($stmt->fetchAll(\PDO::FETCH_ASSOC));
+	}
+	
 	public function find($id)
 	{
-		$mapping = $this->getMappingInformation();
-		
-		$stmt = $this->pdo->prepare('SELECT * FROM '.$mapping->getTableName().' WHERE '.$mapping->getIdField().'= ?');
-		$stmt->execute(array($id));
-		
-		return $this->load($stmt->fetch(\PDO::FETCH_ASSOC));
+		return $this->loadByQuery('SELECT * FROM {table} WHERE {idfield} = ?', array($id));
 	}
 	
-	public function findAll()
+	public function findAll(array $criteria = array(), $orderBy = null, $limit = null, $offset = null)
 	{
-		$mapping = $this->getMappingInformation();
-		$stmt = $this->pdo->query('SELECT * FROM '.$mapping->getTableName());
-		return $this->loadAll($stmt->fetchAll(\PDO::FETCH_ASSOC));
-	}
-	
-	public function loadByQuery($query, array $params)
-	{
-		$stmt = $this->pdo->prepare($query);
-		$stmt->execute($params);
+		$query = 'SELECT * FROM {table}';
+		$params = array();
 		
-		return $this->load($stmt->fetch(\PDO::FETCH_ASSOC));
-	}
-	
-	public function loadAllByQuery($query, array $params)
-	{
-		$stmt = $this->pdo->prepare($query);
-		$stmt->execute($params);
+		if(count($criteria) > 0){
+			$conditions = array();
+			foreach($criteria as $key => $value){
+				$conditions[] = "$key = ?";
+				$params[] = $value;
+			}
+			$query .= ' WHERE '.implode(' AND ', $conditions);
+		}
 		
-		return $this->loadAll($stmt->fetchAll(\PDO::FETCH_ASSOC));
+		if($orderBy !== null){
+			$query .= " ORDER BY $orderBy";
+		}
+		
+		if($limit !== null){
+			$query .= " LIMIT $limit";
+			if($offset !== null){
+				$query .= " OFFSET $offset";
+			}
+		}
+		
+		return $this->loadAllByQuery($query, $params);
 	}
 	
 	public function insert($entity)
 	{
 		$mapping = $this->getMappingInformation();
-		$stmt = $this->pdo->prepare('INSERT INTO '.$mapping->getTableName().' SET '.$this->generateSetsList());
+		$query = 'INSERT INTO {table} SET '.$this->generateSetsList();
+		$stmt = $this->pdo->prepare($this->normalizeQuery($query));
 		$this->bindProperties($stmt, $entity, false);
 		
-		$this->executeStatement($stmt);
+		$this->orm->execute($stmt);
 		$idType = new Type\Id();
 		$this->setEntityPropertyValue($entity, $mapping->getIdField(), $idType->toNative($this->pdo->lastInsertId()));
 	}
@@ -128,19 +162,21 @@ abstract class EntityRepository
 	public function update($entity)
 	{
 		$mapping = $this->getMappingInformation();
-		$stmt = $this->pdo->prepare('UPDATE '.$mapping->getTableName().' SET '.$this->generateSetsList().' WHERE '.$mapping->getIdField().' = :property_'.$mapping->getIdField());
+		$query = 'UPDATE {table} SET '.$this->generateSetsList().' WHERE {idfield} = :property_'.$mapping->getIdField();
+		$stmt = $this->pdo->prepare($this->normalizeQuery($query));
 		$this->bindProperties($stmt, $entity, true);
 		
-		$this->executeStatement($stmt);
+		$this->orm->execute($stmt);
 	}
 	
 	public function remove($entity)
 	{
 		$mapping = $this->getMappingInformation();
-		$stmt = $this->pdo->prepare('DELETE FROM '.$mapping->getTableName().' WHERE '.$mapping->getIdField().' = :id');
+		$query = 'DELETE FROM {table} WHERE {idfield} = :id';
+		$stmt = $this->pdo->prepare($this->normalizeQuery($query));
 		$this->bindPropertiesList($stmt, $entity, ':id', $mapping->getSingleProperty($mapping->getIdField()));
 		
-		$this->executeStatement($stmt);
+		$this->orm->execute($stmt);
 	}
 	
 	private function bindPropertiesList(\PDOStatement $stmt, $entity, array $properties)
@@ -157,19 +193,6 @@ abstract class EntityRepository
 			unset($properties[$this->getMappingInformation()->getIdField()]);
 		}
 		$this->bindPropertiesList($stmt, $entity, $properties);
-	}
-	
-	private function executeStatement(\PDOStatement $stmt, array $params = null)
-	{
-		if($params){
-			$r = $stmt->execute($params);
-		} else {
-			$r = $stmt->execute();
-		}
-		
-		if(!$r){
-			throw new ORMException('Falló la consulta a la base de datos: '.$stmt->errorCode());
-		}
 	}
 	
 	private function generateSetsList()

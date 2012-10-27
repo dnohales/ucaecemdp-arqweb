@@ -2,6 +2,7 @@
 namespace Segdmin\Framework\Database;
 
 use Segdmin\Framework\Exception\ORMException;
+use Segdmin\Framework\Logger;
 
 /**
  * Description of ORM
@@ -40,6 +41,21 @@ class ORM
 		return $this->repository($repoName)->find($id);
 	}
 	
+	public function execute(\PDOStatement $stmt, array $params = array())
+	{
+		if($params){
+			$r = $stmt->execute($params);
+		} else {
+			$r = $stmt->execute();
+		}
+		
+		Logger::debug('Ejecutada consulta SQL: '.$stmt->queryString, 'orm.query');
+		
+		if(!$r){
+			throw new ORMException('Falló la consulta a la base de datos ('.$stmt->errorCode().'): '.$stmt->queryString);
+		}
+	}
+	
 	public function repository($nameOLoQueSea)
 	{
 		if(is_object($nameOLoQueSea)){
@@ -53,14 +69,19 @@ class ORM
 		if(strpos($nameOLoQueSea, '\\') !== false){
 			$repositoryClass = $nameOLoQueSea.'Repository';
 		} else {
-			$repositoryClass = "Segdmin\\Model\\{$nameOLoQueSea}Repository";
+			$repositoryClass = "Segdmin\\Repository\\{$nameOLoQueSea}Repository";
 		}
 		
 		if(!isset($this->repositories[$repositoryClass])){
-			$this->repositories[$repositoryClass] = new $repositoryClass($this->pdo);
+			$this->repositories[$repositoryClass] = new $repositoryClass($this);
 		}
 		
 		return $this->repositories[$repositoryClass];
+	}
+	
+	public function getPdo()
+	{
+		return $this->pdo;
 	}
 	
 }

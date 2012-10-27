@@ -40,6 +40,11 @@ class MappingInformation
 		return array($name => $this->properties[$name]);
 	}
 	
+	public function getPropertyType($name)
+	{
+		return $this->properties[$name];
+	}
+	
 	public function setProperties(array $properties)
 	{
 		$this->properties = array();
