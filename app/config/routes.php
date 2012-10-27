@@ -22,123 +22,144 @@ return array
         'path' => '/',
         'controller' => 'Main:index',
         'roles' => array(
-            Roles::ANONYMOUS,
+            Roles::LOGGEDIN,
         )
     ),
-    'addadmin' => array(
-        'path' => '/addadmin',
-        'controller' => 'Admin:add',
+    'user_index' => array(
+        'path' => '/usuario',
+        'controller' => 'User:index',
         'roles' => array(
             Roles::ADMIN,
         )
     ),
-    'removeadmin' => array(
-        'path' => '/removeadmin',
-        'controller' => 'Admin:remove',
+    'user_add' => array(
+        'path' => '/usuario/alta',
+        'controller' => 'User:add',
         'roles' => array(
             Roles::ADMIN,
         )
     ),
-    'addcompany' => array(
-        'path' => '/addcompany',
+	'user_edit' => array(
+		'path' => '/usuario/{id}/modificacion',
+        'controller' => 'User:edit',
+        'roles' => array(
+            Roles::ADMIN,
+        )
+	),
+    'user_remove' => array(
+        'path' => '/usuario/{id}/baja',
+        'controller' => 'User:remove',
+        'roles' => array(
+            Roles::ADMIN,
+        )
+    ),
+    'company_index' => array(
+        'path' => '/compania',
+        'controller' => 'Company:index',
+        'roles' => array(
+            Roles::ADMIN,
+        )
+    ),
+    'company_add' => array(
+        'path' => '/compania/alta',
         'controller' => 'Company:add',
         'roles' => array(
             Roles::ADMIN,
         )
     ),
-    'removecompany' => array(
-        'path' => '/removecompany',
+    'company_remove' => array(
+        'path' => '/compania/{id}/baja',
         'controller' => 'Company:remove',
         'roles' => array(
             Roles::ADMIN, Roles::COMPANY,
         )
     ),
-    'editcompany' => array(
-        'path' => '/editcompany',
+    'company_edit' => array(
+        'path' => '/compania/{id}/modificacion',
         'controller' => 'Company:edit',
         'roles' => array(
             Roles::ADMIN, Roles::COMPANY,
         )
     ),
-    'addcoverage' => array(
-        'path' => '/addcoverage',
+    'coverage_add' => array(
+        'path' => '/covertura/alta',
         'controller' => 'Coverage:add',
         'roles' => array(
             Roles::ADMIN, Roles::COMPANY,
         )
     ),
-    'removecoverage' => array(
-        'path' => '/removecoverage',
+    'coverage_remove' => array(
+        'path' => '/covertura/{id}/baja',
         'controller' => 'Coverage:remove',
         'roles' => array(
             Roles::ADMIN, Roles::COMPANY,
         )
     ),
-    'addproducer' => array(
-        'path' => '/addproducer',
+    'producer_add' => array(
+        'path' => '/productor/alta',
         'controller' => 'Producer:add',
         'roles' => array(
             Roles::ADMIN,
         )
     ),
-    'removeproducer' => array(
-        'path' => '/removeproducer',
+    'producer_remove' => array(
+        'path' => '/productor/{id}/baja',
         'controller' => 'Producer:remove',
         'roles' => array(
             Roles::ADMIN, Roles::PRODUCER,
         )
     ),
-    'editproducer' => array(
-        'path' => '/editproducer',
+    'producer_edit' => array(
+        'path' => '/productor/{id}/modificacion',
         'controller' => 'Producer:edit',
         'roles' => array(
             Roles::ADMIN, Roles::PRODUCER,
         )
     ),
-    'addrequest' => array(
-        'path' => '/addrequest',
+    'request_add' => array(
+        'path' => '/solicitar/alta',
         'controller' => 'Request:add',
         'roles' => array(
             Roles::ADMIN, Roles::PRODUCER,
         )
     ),
-    'removerequest' => array(
-        'path' => '/removerequest',
+    'request_remove' => array(
+        'path' => '/solicitud/{id}/baja',
         'controller' => 'Request:remove',
         'roles' => array(
             Roles::ADMIN, Roles::PRODUCER,
         )
     ),
-    'editrequest' => array(
-        'path' => '/editrequest',
+    'request_edit' => array(
+        'path' => '/solicitud/{id}/modificacion',
         'controller' => 'Request:edit',
         'roles' => array(
             Roles::ADMIN, Roles::PRODUCER
         )
     ),
     'answerrequest' => array(
-        'path' => '/answerrequest',
+        'path' => '/solicitud/{id}/responder',
         'controller' => 'Request:answer',
         'roles' => array(
             Roles::ADMIN, Roles::COMPANY
         )
     ),
-    'addtaker' => array(
-        'path' => '/addtaker',
+    'taker_add' => array(
+        'path' => '/cliente/alta',
         'controller' => 'Taker:add',
         'roles' => array(
             Roles::ADMIN, Roles::PRODUCER
         )
     ),
-    'removetaker' => array(
-        'path' => '/removetaker',
+    'taker_remove' => array(
+        'path' => '/cliente/{id}/baja',
         'controller' => 'Taker:remove',
         'roles' => array(
             Roles::ADMIN, Roles::PRODUCER
         )
     ),
-    'edittaker' => array(
-        'path' => '/edittaker',
+    'taker_edit' => array(
+        'path' => '/cliente/{id}/modificacion',
         'controller' => 'Taker:edit',
         'roles' => array(
             Roles::ADMIN, Roles::PRODUCER
