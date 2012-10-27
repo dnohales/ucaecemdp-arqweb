@@ -2,6 +2,14 @@ html, body, #container {
 	height: 100%;
 }
 
+h1 {
+	margin-bottom: 21px;
+}
+
+input:invalid {
+	border-color: darkred;
+}
+
 #wrapper {
 	min-height: 100%;
 }
@@ -43,4 +51,24 @@ html, body, #container {
 
 #search_form, #search_form input {
 	margin-bottom: 0px;
+}
+
+#content {
+	min-height: 500px;
+}
+
+fieldset.margined * {
+	margin-left: 30px;
+}
+
+fieldset.margined {
+	margin-bottom: 20px;
+}
+
+.entity-table-container header div:first-child {
+	float: left;
+}
+
+.entity-table-container header div:last-child {
+	float: right;
 }
