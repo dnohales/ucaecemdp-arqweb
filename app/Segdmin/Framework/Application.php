@@ -26,7 +26,15 @@ class Application
 	 */
 	private $templateManager;
 	
+	/**
+	 * @var Database\ORM
+	 */
 	private $orm;
+	
+	/**
+	 * @var Logger
+	 */
+	private $logger;
 	
 	public function __construct($webPath, $basePath)
 	{
@@ -36,6 +44,7 @@ class Application
 		$this->templateManager = new Templating\TemplateManager($this->basePath.'/Segdmin/View');
 		$this->templateManager->setApplication($this);
 		$this->orm = new Database\ORM($this->createPdo());
+		$this->logger = Logger::createInstance();
 	}
 	
 	public function getWebPath()
@@ -66,6 +75,11 @@ class Application
 	public function getOrm()
 	{
 		return $this->orm;
+	}
+	
+	public function getLogger()
+	{
+		return $this->logger;
 	}
 
 	public function handle(Http\Request $request)
