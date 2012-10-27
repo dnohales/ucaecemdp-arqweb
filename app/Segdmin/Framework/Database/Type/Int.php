@@ -10,12 +10,12 @@ class Int implements TypeInterface
 {
 	public function toNative($value)
 	{
-		return (int)$value;
+		return $value === null? null:(int)$value;
 	}
 	
 	public function toDatabase($value)
 	{
-		return (int)$value;
+		return $value === null? null:(int)$value;
 	}
 	
 	public function bindFormat()

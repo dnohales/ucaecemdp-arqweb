@@ -10,12 +10,12 @@ class Float implements TypeInterface
 {
 	public function toNative($value)
 	{
-		return (float)$value;
+		return $value === null? null:(float)$value;
 	}
 	
 	public function toDatabase($value)
 	{
-		return (float)$value;
+		return $value === null? null:(string)$value;
 	}
 	
 	public function bindFormat()

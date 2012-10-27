@@ -10,12 +10,12 @@ class DateTime implements TypeInterface
 {
 	public function toNative($value)
 	{
-		return \DateTime::createFromFormat('Y-m-d H:i:s', $value);
+		return $value === null? null:\DateTime::createFromFormat('Y-m-d H:i:s', $value);
 	}
 	
 	public function toDatabase($value)
 	{
-		return $value->format('Y-m-d H:i:s');
+		return $value === null? null:$value->format('Y-m-d H:i:s');
 	}
 	
 	public function bindFormat()

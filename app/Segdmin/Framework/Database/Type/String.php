@@ -10,12 +10,12 @@ class String implements TypeInterface
 {
 	public function toNative($value)
 	{
-		return (string)$value;
+		return $value === null? null:(string)$value;
 	}
 	
 	public function toDatabase($value)
 	{
-		return (string)$value;
+		return $value === null? null:(string)$value;
 	}
 	
 	public function bindFormat()

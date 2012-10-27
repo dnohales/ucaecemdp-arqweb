@@ -10,12 +10,12 @@ class Bool implements TypeInterface
 {
 	public function toNative($value)
 	{
-		return (bool)$value;
+		return $value === null? null:(bool)$value;
 	}
 	
 	public function toDatabase($value)
 	{
-		return (bool)$value;
+		return $value === null? null:(bool)$value;
 	}
 	
 	public function bindFormat()
