@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 27-10-2012 a las 16:04:01
+-- Tiempo de generación: 27-10-2012 a las 17:24:23
 -- Versión del servidor: 5.5.24
 -- Versión de PHP: 5.3.10-1ubuntu3.4
 
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `producer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `lastName` varchar(100) NOT NULL,
-  `dni` int(11) NOT NULL,
+  `dni` varchar(20) NOT NULL,
   `address` varchar(100) NOT NULL,
   `phones` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
@@ -111,8 +111,8 @@ CREATE TABLE IF NOT EXISTS `taker` (
   `name` varchar(100) NOT NULL,
   `lastName` varchar(100) NOT NULL,
   `address` varchar(100) NOT NULL,
-  `dni` int(11) NOT NULL,
-  `cuit` char(13) NOT NULL,
+  `dni` varchar(20) NOT NULL,
+  `cuit` varchar(20) NOT NULL,
   `birth` date NOT NULL,
   `phones` varchar(100) NOT NULL,
   `condition` tinyint(4) NOT NULL COMMENT 'Flag: 0=>cons.final / 1=>mono. / 2=>resp.inscr.',
