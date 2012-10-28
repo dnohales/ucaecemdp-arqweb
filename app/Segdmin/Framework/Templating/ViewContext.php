@@ -46,14 +46,29 @@ class ViewContext
 		return rtrim($this->request()->getBaseUrl(), '/').'/'.$name;
 	}
 	
+	public function app()
+	{
+		return $this->view->getTemplateManager()->getApplication();
+	}
+	
 	public function url($routeName, array $parameters = array(), $absolute = false)
 	{
-		return $this->view->getTemplateManager()->getApplication()->getRouter()->generate($routeName, $parameters, $absolute);
+		return $this->app()->getRouter()->generate($routeName, $parameters, $absolute);
 	}
 	
 	public function request()
 	{
-		return $this->view->getTemplateManager()->getApplication()->getCurrentRequest();
+		return $this->app()->getCurrentRequest();
+	}
+	
+	public function session()
+	{
+		return $this->app()->getSession();
+	}
+	
+	public function user()
+	{
+		return $this->app()->getSession()->getUser();
 	}
 	
 	public function currentUri($absolute = false)
