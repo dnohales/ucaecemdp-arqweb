@@ -11,7 +11,9 @@
 <div class="login-container">
 	<h1>Iniciar sesión en Segdmin</h1>
 	<?php if($error): ?>
-		<?= $error ?>
+		<div class="alert alert-error">
+			<?= $error ?>
+		</div>
 	<?php endif; ?>
 	<form method="post" action="<?php echo $this->currentUri(true) ?>">
 		<input class="fullwidth" value="<?= $lastEmail ?>" name="email" type="text" placeholder="Correo electrónico" />

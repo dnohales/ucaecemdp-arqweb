@@ -30,7 +30,7 @@ class AuthController extends Controller
 				$this->getSession()->login($user, $post->has('rememberMe')? 604800:0);
 				return $this->redirectByRoute('index');
 			} else {
-				$error = 'La dirección de correo o password no son válidos';
+				$error = 'El correo electrónico o contraseña no son válidos';
 			}
 		}
 		

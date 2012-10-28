@@ -20,17 +20,13 @@ class CompanyController extends Controller
 		if($this->getRequest()->isPost()){
 			$this->bindIntoEntity($company, $this->getRequest()->post());
 			$this->getOrm()->save($company);
+			$this->getSession()->setFlash('success', 'Se añadió la compañía correctamente');
 			return $this->redirectByRoute('company_index');
 		}
 		
 		return $this->render('Company:add', array(
 			'company' => $company
 		));
-	}
-    
-    public function removeAction()
-	{
-		return $this->render('Company:remove');
 	}
     
     public function editAction($id)
@@ -40,10 +36,12 @@ class CompanyController extends Controller
 		if($this->getRequest()->isPost()){
 			if($this->getRequest()->post()->has('remove')){
 				$this->getOrm()->remove($company);
+				$this->getSession()->setFlash('success', 'La compañía se ha eliminado correctamente');
 				return $this->redirectByRoute('company_index');
 			} else {
 				$this->bindIntoEntity($company, $this->getRequest()->post());
 				$this->getOrm()->save($company);
+				$this->getSession()->setFlash('success', 'Se han guardado los cambios correctamente');
 				return $this->reloadCurrentUri();
 			}
 		}
