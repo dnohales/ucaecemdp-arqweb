@@ -24,13 +24,11 @@ class CompanyController extends Controller
 			$this->bindIntoEntity($company, $post);
 			$this->getOrm()->save($company);
 			
-			if($post->has('createUser')){
-				$user = new User($this->getOrm());
-				$user->setEmail($post->get('user')->get('email'));
-				$user->setPlainPassword($post->get('user')->get('password'));
-				$user->setCompany($company);
-				$this->getOrm()->save($user);
-			}
+			$user = new User($this->getOrm());
+			$user->setEmail($post->get('user')->get('email'));
+			$user->setPlainPassword($post->get('user')->get('password'));
+			$user->setCompany($company);
+			$this->getOrm()->save($user);
 			
 			$this->getSession()->setFlash('success', 'Se añadió la compañía correctamente');
 			return $this->redirectByRoute('company_index');
