@@ -42,7 +42,13 @@ class Router
 	public function generate($routeName, array $parameters = array(), $absolute = false)
 	{
 		$route = $this->getRoute($routeName);
-		$pathName = str_replace(array_keys($parameters), array_values($parameters), $route->getPath());
+		
+		$pathName = $route->getPath();
+		foreach($parameters as $pName => $pValue){
+			$pathName = str_replace('{'.$pName.'}', $pValue, $pathName);
+		}
+		
+		
 		$uri = rtrim($this->getContextRequest()->getBaseRoutePath(), '/').'/'.ltrim($pathName, '/');
 		return $this->getContextRequest()->absolutize($uri, $absolute);
 	}
