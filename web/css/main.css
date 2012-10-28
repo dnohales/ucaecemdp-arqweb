@@ -10,6 +10,11 @@ input:invalid {
 	border-color: darkred;
 }
 
+input:disabled {
+	background-color: #EEE !important;
+	color: gray;
+}
+
 #wrapper {
 	min-height: 100%;
 }
