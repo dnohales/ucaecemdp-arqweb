@@ -10,14 +10,17 @@
 <?php $this->block('maincontent') ?>
 <div class="login-container">
 	<h1>Iniciar sesión en Segdmin</h1>
+	<?php if($error): ?>
+		<?= $error ?>
+	<?php endif; ?>
 	<form method="post" action="<?php echo $this->currentUri(true) ?>">
-		<input class="fullwidth" name="email" type="text" placeholder="Correo electrónico" />
+		<input class="fullwidth" value="<?= $lastEmail ?>" name="email" type="text" placeholder="Correo electrónico" />
 		<input class="fullwidth" name="password" type="password" placeholder="Contraseña" />
 		<div class="login-buttons">
 			<div>
 				<label class="checkbox">
-					<input type="checkbox" />
-					Mantener sesión abierta
+					<input type="checkbox" name="rememberMe" />
+					Mantener sesión abierta por 7 días
 				</label>
 			</div>
 			<div>

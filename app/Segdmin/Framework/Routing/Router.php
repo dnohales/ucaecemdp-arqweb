@@ -53,6 +53,15 @@ class Router
 		return $this->getContextRequest()->absolutize($uri, $absolute);
 	}
 	
+	/**
+	 * Parsea un request para obtener la ruta con los parámetros indicados en 
+	 * la URL.
+	 * @param Request $request El request a partir del cual se buscará la ruta
+	 * indicada.
+	 * @return RouterResolution La respuesta del ruteador en la que se encapsulan
+	 * los parámetros resueltos y el objeto Route correspondiente.
+	 * @throws RouterException 
+	 */
 	public function match(Request $request)
 	{
 		$resolution = new RouterResolution();

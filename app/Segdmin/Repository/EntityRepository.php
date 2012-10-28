@@ -6,6 +6,7 @@ use Segdmin\Framework\Exception\ORMException;
 use Segdmin\Framework\Database\ORM;
 use Segdmin\Framework\Database\MappingInformation;
 use Segdmin\Framework\Database\Type\Id;
+use Segdmin\Framework\Database\QueryBuilder;
 
 /**
  * Description of BaseRepository
@@ -76,32 +77,46 @@ abstract class EntityRepository
 		return $this->loadByQuery('SELECT * FROM {table} WHERE {idfield} = ?', array($id));
 	}
 	
-	public function findAll(array $criteria = array(), $orderBy = null, $limit = null, $offset = null)
+	private function createQuery($criteria = null, $orderBy = null, $limit = null, $offset = null)
 	{
-		$query = 'SELECT * FROM {table}';
+		$builder = new QueryBuilder();
+		$builder->setOrderBy($orderBy)->setLimit($limit)->setOffset($offset);
+		
 		$params = array();
 		
-		if(count($criteria) > 0){
-			$conditions = array();
-			foreach($criteria as $key => $value){
-				$conditions[] = "$key = ?";
-				$params[] = $value;
+		if($criteria !== null){
+			if(is_array($criteria)){
+				$conditions = array();
+				foreach($criteria as $key => $value){
+					$conditions[] = "$key = ?";
+					$params[] = $value;
+				}
+				$where = implode(' AND ', $conditions);
+			} else {
+				$where = $criteria;
 			}
-			$query .= ' WHERE '.implode(' AND ', $conditions);
+			$builder->setWhere($where);
 		}
 		
-		if($orderBy !== null){
-			$query .= " ORDER BY $orderBy";
-		}
-		
-		if($limit !== null){
-			$query .= " LIMIT $limit";
-			if($offset !== null){
-				$query .= " OFFSET $offset";
-			}
-		}
-		
-		return $this->loadAllByQuery($query, $params);
+		return array($builder->getQuery(), $params);
+	}
+	
+	public function findAll($orderBy = null, $limit = null, $offset = null)
+	{
+		$queryParams = $this->createQuery(null, $orderBy, $limit, $offset); 
+		return $this->loadAllByQuery($queryParams[0], $queryParams[1]);
+	}
+	
+	public function findAllBy($criteria = null, $orderBy = null, $limit = null, $offset = null)
+	{
+		$queryParams = $this->createQuery($criteria, $orderBy, $limit, $offset); 
+		return $this->loadAllByQuery($queryParams[0], $queryParams[1]);
+	}
+	
+	public function findOneBy($criteria = null, $orderBy = null, $offset = null)
+	{
+		$queryParams = $this->createQuery($criteria, $orderBy, 1, $offset); 
+		return $this->loadByQuery($queryParams[0], $queryParams[1]);
 	}
 	
 	/**

@@ -2,13 +2,14 @@
 namespace Segdmin\Model;
 
 use Segdmin\Framework\Security\Roles;
+use Segdmin\Framework\Security\UserEntity;
 
 /**
  * Description of User
  *
  * @author eagleoneraptor
  */
-class User extends Entity
+class User extends UserEntity
 {
 	private $email;
 	private $password;
@@ -48,6 +49,11 @@ class User extends Entity
 	{
 		return md5($plainPassword.'{'.$this->getSalt().'}');
 	}
+	
+	public function passwordMatch($plainPassword)
+	{
+		return $this->encodePassword($plainPassword) === $this->getPassword();
+	}
 
 	public function getSalt()
 	{
@@ -57,7 +63,7 @@ class User extends Entity
 	public function getRoles()
 	{
 		$relatedRole = $this->getRelatedRole();
-		return array($relatedRole ?: Roles::ADMIN, Roles::LOGGEDIN);
+		return array($relatedRole ?: Roles::ADMIN, Roles::LOGGEDIN, Roles::ANONYMOUS);
 	}
 	
 	private function getRelatedRole()

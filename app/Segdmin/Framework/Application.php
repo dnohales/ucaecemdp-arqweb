@@ -36,6 +36,11 @@ class Application
 	 */
 	private $logger;
 	
+	/**
+	 * @var Session
+	 */
+	private $session;
+	
 	public function __construct($webPath, $basePath)
 	{
 		$this->webPath = $webPath;
@@ -45,6 +50,7 @@ class Application
 		$this->templateManager->setApplication($this);
 		$this->orm = new Database\ORM($this->createPdo());
 		$this->logger = Logger::createInstance();
+		$this->session = Security\Session::createInstance($this->orm);
 	}
 	
 	public function getWebPath()
@@ -57,38 +63,75 @@ class Application
 		return $this->basePath;
 	}
 	
+	/**
+	 * @return Routing\Router 
+	 */
 	public function getRouter()
 	{
 		return $this->router;
 	}
-
+	
+	/**
+	 * @return Http\Request 
+	 */
 	public function getCurrentRequest()
 	{
 		return $this->currentRequest;
 	}
 	
+	/**
+	 * @return Templating\TemplateManager 
+	 */
 	public function getTemplateManager()
 	{
 		return $this->templateManager;
 	}
 	
+	/**
+	 * @return Database\ORM 
+	 */
 	public function getOrm()
 	{
 		return $this->orm;
 	}
 	
+	/**
+	 * @return Logger 
+	 */
 	public function getLogger()
 	{
 		return $this->logger;
 	}
-
+	
+	/**
+	 * @return Security\Session 
+	 */
+	public function getSession()
+	{
+		return $this->session;
+	}
+	
+	/**
+	 * @param Http\Request $request
+	 * @return Http\Response 
+	 */
 	public function handle(Http\Request $request)
 	{
 		$this->currentRequest = $request;
 		$this->router->setContextRequest($request);
+		$this->session->setContextRequest($request);
 		
 		try{
 			$resolution = $this->router->match($request);
+			
+			if( !$resolution->getRoute()->isUserGranted($this->session->getUser()) ) {
+				if(!$this->session->isLoggedIn()){
+					return new Http\RedirectResponse($this->router->generate('login'));
+				} else {
+					return new Http\ErrorResponse(null, 403);
+				}
+			}
+			
 			$response = $this->invokeController($resolution);
 			return $this->sanitizeResponse($response);
 		} catch(Exception\RouterException $e){
@@ -148,7 +191,12 @@ class Application
 	
 	private function createPdo()
 	{
-		$config = include($this->getBasePath().'/config/database.php');
+		$configFile = $this->getBasePath().'/config/database.php';
+		if(!file_exists($configFile)){
+			throw new \Exception("Tienes que crear el archivo \"$configFile\" a partir del archivo database.dist.php en el mismo directorio.");
+		}
+		
+		$config = include($configFile);
 		return new \PDO($config['dsn'], $config['username'], $config['password'], $config['options']);
 	}
 }

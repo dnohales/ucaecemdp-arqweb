@@ -1,6 +1,8 @@
 <?php
 namespace Segdmin\Framework\Routing;
 
+use Segdmin\Framework\Security\UserInterface;
+
 /**
  * Description of Route
  *
@@ -85,6 +87,9 @@ class Route
 		$this->roles = $roles;
 	}
 
-
+	public function isUserGranted(UserInterface $user)
+	{
+		return count(array_intersect($this->getRoles(), $user->getRoles())) > 0;
+	}
 
 }
