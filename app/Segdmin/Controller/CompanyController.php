@@ -18,9 +18,7 @@ class CompanyController extends Controller
 		$company = new Company($this->getOrm());
 		
 		if($this->getRequest()->isPost()){
-			foreach($this->getRequest()->post() as $key => $value){
-				$company->{"set$key"}(trim($value));
-			}
+			$this->bindIntoEntity($company, $this->getRequest()->post());
 			$this->getOrm()->save($company);
 			return $this->redirectByRoute('company_index');
 		}
@@ -44,11 +42,7 @@ class CompanyController extends Controller
 				$this->getOrm()->remove($company);
 				return $this->redirectByRoute('company_index');
 			} else {
-				foreach($this->getRequest()->post() as $key => $value){
-					if(method_exists($company, "set$key")){
-						$company->{"set$key"}(trim($value));
-					}
-				}
+				$this->bindIntoEntity($company, $this->getRequest()->post());
 				$this->getOrm()->save($company);
 				return $this->reloadCurrentUri();
 			}
