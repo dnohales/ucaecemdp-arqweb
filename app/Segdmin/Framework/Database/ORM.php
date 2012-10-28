@@ -111,7 +111,7 @@ class ORM
 		Logger::debug('Ejecutada consulta SQL: '.$stmt->queryString, 'orm.query');
 		
 		if(!$r){
-			throw new ORMException('Falló la consulta a la base de datos ('.$stmt->errorCode().'): '.$stmt->queryString);
+			throw new ORMException('Falló la consulta a la base de datos ('.implode(',', $stmt->errorInfo()).'): '.$stmt->queryString);
 		}
 	}
 	
