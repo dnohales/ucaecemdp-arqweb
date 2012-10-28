@@ -36,72 +36,27 @@ abstract class EntityRepository
 		return str_replace('\\Repository\\', '\\Model\\', $className);
 	}
 	
-	private function setEntityPropertyValue($entity, $property, $value)
-	{
-		$reflection = new \ReflectionObject($entity);
-		$property = $reflection->getProperty($property);
-		$accessible = $property->isPublic();
-		$property->setAccessible(true);
-		$property->setValue($entity, $value);
-		$property->setAccessible($accessible);
-	}
-	
-	private function getEntityPropertyValue($entity, $property)
-	{
-		$reflection = new \ReflectionObject($entity);
-		$property = $reflection->getProperty($property);
-		$accessible = $property->isPublic();
-		$property->setAccessible(true);
-		$value = $property->getValue($entity);
-		$property->setAccessible($accessible);
-		return $value;
-	}
-	
-	public function isNew($entity)
-	{
-		return !$this->getEntityPropertyValue($entity, $this->getMappingInformation()->getIdField());
-	}
-	
-	private function normalizeQuery($query)
-	{
-		$mapping = $this->getMappingInformation();
-		$replacements = array(
-			'{table}' => $mapping->getTableName(),
-			'{idfield}' => $mapping->getIdField()
-		);
-		
-		return str_replace(array_keys($replacements), array_values($replacements), $query);
-	}
-	
 	public function load($row)
 	{
-		if(!$row){
-			return null;
-		}
-		
-		$mapping = $this->getMappingInformation();
-		$entityClass = $this->getEntityClass();
-		$instance = new $entityClass($this->orm);
-		
-		foreach($mapping->getProperties() as $name => $type){
-			$this->setEntityPropertyValue($instance, $name, $type->toNative($row[$name]));
-		}
-		
-		return $instance;
+		return $this->orm->loadEntity($this->getMappingInformation(), $this->getEntityClass(), $row);
 	}
 	
 	public function loadAll(array $rows)
 	{
+		$mapping = $this->getMappingInformation();
+		$entityClass = $this->getEntityClass();
+		
 		$entities = new ArrayCollection();
 		foreach($rows as $row){
-			$entities->add($this->load($row));
+			$entities->add($this->orm->loadEntity($mapping, $entityClass, $row));
 		}
 		return $entities;
 	}
 	
 	public function loadByQuery($query, array $params = array())
 	{
-		$stmt = $this->pdo->prepare($this->normalizeQuery($query));
+		$query = $this->orm->getHelper()->normalizeQuery($query, $this->getMappingInformation());
+		$stmt = $this->pdo->prepare($query);
 		$this->orm->execute($stmt, $params);
 		
 		return $this->load($stmt->fetch(\PDO::FETCH_ASSOC));
@@ -109,7 +64,8 @@ abstract class EntityRepository
 	
 	public function loadAllByQuery($query, array $params = array())
 	{
-		$stmt = $this->pdo->prepare($this->normalizeQuery($query));
+		$query = $this->orm->getHelper()->normalizeQuery($query, $this->getMappingInformation());
+		$stmt = $this->pdo->prepare($query);
 		$this->orm->execute($stmt, $params);
 		
 		return $this->loadAll($stmt->fetchAll(\PDO::FETCH_ASSOC));
@@ -146,67 +102,6 @@ abstract class EntityRepository
 		}
 		
 		return $this->loadAllByQuery($query, $params);
-	}
-	
-	public function insert($entity)
-	{
-		$mapping = $this->getMappingInformation();
-		$query = 'INSERT INTO {table} SET '.$this->generateSetsList();
-		$stmt = $this->pdo->prepare($this->normalizeQuery($query));
-		$this->bindProperties($stmt, $entity, false);
-		
-		$this->orm->execute($stmt);
-		$idType = new Id();
-		$this->setEntityPropertyValue($entity, $mapping->getIdField(), $idType->toNative($this->pdo->lastInsertId()));
-	}
-	
-	public function update($entity)
-	{
-		$mapping = $this->getMappingInformation();
-		$query = 'UPDATE {table} SET '.$this->generateSetsList().' WHERE {idfield} = :property_'.$mapping->getIdField();
-		$stmt = $this->pdo->prepare($this->normalizeQuery($query));
-		$this->bindProperties($stmt, $entity, true);
-		
-		$this->orm->execute($stmt);
-	}
-	
-	public function remove($entity)
-	{
-		$mapping = $this->getMappingInformation();
-		$query = 'DELETE FROM {table} WHERE {idfield} = :id';
-		$stmt = $this->pdo->prepare($this->normalizeQuery($query));
-		$this->bindPropertiesList($stmt, $entity, ':id', $mapping->getSingleProperty($mapping->getIdField()));
-		
-		$this->orm->execute($stmt);
-	}
-	
-	private function bindPropertiesList(\PDOStatement $stmt, $entity, array $properties)
-	{
-		foreach($properties as $name => $type){
-			$stmt->bindValue(":property_$name", $type->toDatabase($this->getEntityPropertyValue($entity, $name)), $type->bindFormat());
-		}
-	}
-	
-	private function bindProperties(\PDOStatement $stmt, $entity, $withId)
-	{
-		$properties = $this->getMappingInformation()->getProperties();
-		if(!$withId){
-			unset($properties[$this->getMappingInformation()->getIdField()]);
-		}
-		$this->bindPropertiesList($stmt, $entity, $properties);
-	}
-	
-	private function generateSetsList()
-	{
-		$parts = array();
-		
-		foreach($this->getMappingInformation()->getProperties() as $name => $type){
-			if($name != $this->getMappingInformation()->getIdField()){
-				$parts[] = "$name = :property_$name";
-			}
-		}
-		
-		return implode(',', $parts);
 	}
 	
 	/**

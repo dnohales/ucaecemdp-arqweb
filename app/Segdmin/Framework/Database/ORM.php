@@ -15,30 +15,89 @@ class ORM
 	
 	private $repositories;
 	
+	private $helper;
+	
+	private $identityMap;
+	
 	public function __construct(\PDO $pdo)
 	{
 		$this->pdo = $pdo;
 		$this->repositories = array();
+		$this->helper = new ORMHelper();
+		$this->identityMap = array();
 	}
 	
-	public function insert($entity)
+	public function loadEntity(MappingInformation $mapping, $entityClass, $row)
 	{
-		return $this->getRepository($entity)->insert($entity);
+		if(!$row){
+			return null;
+		}
+		
+		if(!isset($this->identityMap[$entityClass][(string)$row[$mapping->getIdField()]])){
+			$instance = new $entityClass($this);
+			foreach($mapping->getProperties() as $name => $type){
+				$this->helper->setEntityPropertyValue($instance, $name, $type->toNative($row[$name]));
+			}
+			$this->identityMap[$entityClass][(string)$row[$mapping->getIdField()]] = $instance;
+		}
+		
+		return $this->identityMap[$entityClass][(string)$row[$mapping->getIdField()]];
 	}
 	
-	public function update($entity)
+	public function save($entity)
 	{
-		return $this->getRepository($entity)->update($entity);
+		if($this->isNew($entity)){
+			return $this->insert($entity);
+		} else {
+			return $this->update($entity);
+		}
+	}
+	
+	private function insert($entity)
+	{
+		$mapping = $this->getRepository($entity)->getMappingInformation();
+		$query = 'INSERT INTO {table} SET '.$this->helper->generateSetsList($mapping);
+		$stmt = $this->pdo->prepare($this->helper->normalizeQuery($query, $mapping));
+		$this->helper->bindProperties($stmt, $mapping, $entity, false);
+		
+		$this->execute($stmt);
+		$idType = new Type\Id();
+		$this->helper->setEntityPropertyValue($entity, $mapping->getIdField(), $idType->toNative($this->pdo->lastInsertId()));
+		
+		$entityId = $this->helper->getEntityPropertyValue($entity, $mapping->getIdField());
+		$this->identityMap[get_class($entity)][(string)$entityId] = $entity;
+	}
+	
+	private function update($entity)
+	{
+		$mapping = $this->getRepository($entity)->getMappingInformation();
+		$query = 'UPDATE {table} SET '.$this->helper->generateSetsList($mapping).' WHERE {idfield} = :property_'.$mapping->getIdField();
+		$stmt = $this->pdo->prepare($this->helper->normalizeQuery($query, $mapping));
+		$this->helper->bindProperties($stmt, $mapping, $entity, true);
+		
+		$this->execute($stmt);
 	}
 	
 	public function remove($entity)
 	{
-		return $this->getRepository($entity)->remove($entity);
+		$mapping = $this->getRepository($entity)->getMappingInformation();
+		$query = 'DELETE FROM {table} WHERE {idfield} = :property_'.$mapping->getIdField();
+		$stmt = $this->pdo->prepare($this->helper->normalizeQuery($query, $mapping));
+		$this->helper->bindPropertiesList($stmt, $entity, $mapping->getSingleProperty($mapping->getIdField()));
+		
+		$this->execute($stmt);
 	}
 	
 	public function find($repoName, $id)
 	{
 		return $this->getRepository($repoName)->find($id);
+	}
+	
+	public function isNew($entity)
+	{
+		$mapping = $this->getRepository($entity)->getMappingInformation();
+		$entityId = $this->helper->getEntityPropertyValue($entity, $mapping->getIdField());
+		return !isset($this->identityMap[get_class($entity)][(string)$entityId]);
 	}
 	
 	public function execute(\PDOStatement $stmt, array $params = array())
@@ -83,6 +142,11 @@ class ORM
 	public function getPdo()
 	{
 		return $this->pdo;
+	}
+	
+	public function getHelper()
+	{
+		return $this->helper;
 	}
 	
 }
