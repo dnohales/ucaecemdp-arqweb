@@ -12,7 +12,7 @@
 		<li><a href="<?php echo $this->url('index') ?>">Inicio</a></li>
 		<li><a href="<?php echo $this->url('company_index') ?>">Compañías aseguradoras</a></li>
 		<li><a href="<?php echo $this->url('index') ?>">Coverturas</a></li>
-		<li><a href="<?php echo $this->url('index') ?>">Productores</a></li>
+		<li><a href="<?php echo $this->url('producer_index') ?>">Productores</a></li>
 		<li><a href="<?php echo $this->url('index') ?>">Clientes</a></li>
 		<li><a href="<?php echo $this->url('index') ?>">Usuarios</a></li>
 		<li><hr /></li>

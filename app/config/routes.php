@@ -95,6 +95,13 @@ return array
             Roles::ADMIN, Roles::COMPANY,
         )
     ),
+	'producer_index' => array(
+        'path' => '/productor',
+        'controller' => 'Producer:index',
+        'roles' => array(
+            Roles::ADMIN,
+        )
+    ),
     'producer_add' => array(
         'path' => '/productor/alta',
         'controller' => 'Producer:add',

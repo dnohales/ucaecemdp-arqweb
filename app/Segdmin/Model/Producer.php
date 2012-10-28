@@ -63,7 +63,18 @@ class Producer extends Entity
 	{
 		$this->phones = $phones;
 	}
-
+	
+	public function getFullName()
+	{
+		return $this->getName().' '.$this->getLastName();
+	}
+	
+	public function getUser()
+	{
+		return $this->getOrm()->getRepository('User')->findOneBy(array(
+			'producerId' => $this->getId()
+		));
+	}
 
 }
 
