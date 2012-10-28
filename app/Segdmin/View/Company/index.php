@@ -30,7 +30,7 @@
 			<?php foreach($companies as $c): ?>
 			<tr>
 				<td><?= $c->getId() ?></td>
-				<td><a href="<?= $this->url('company_edit', array('id' => $c->getId())) ?>"><?= $c->getName() ?></a></td>
+				<td><a href="<?= $this->url('company_detail', array('id' => $c->getId())) ?>"><?= $c->getName() ?></a></td>
 				<td><?= $c->getAddress() ?></td>
 			</tr>
 			<?php endforeach; ?>

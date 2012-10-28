@@ -3,6 +3,7 @@ namespace Segdmin\Controller;
 
 use Segdmin\Framework\Controller;
 use Segdmin\Model\Company;
+use Segdmin\Model\User;
 
 class CompanyController extends Controller
 {
@@ -18,8 +19,19 @@ class CompanyController extends Controller
 		$company = new Company($this->getOrm());
 		
 		if($this->getRequest()->isPost()){
-			$this->bindIntoEntity($company, $this->getRequest()->post());
+			$post = $this->getRequest()->post();
+			
+			$this->bindIntoEntity($company, $post);
 			$this->getOrm()->save($company);
+			
+			if($post->has('createUser')){
+				$user = new User($this->getOrm());
+				$user->setEmail($post->get('user')->get('email'));
+				$user->setPlainPassword($post->get('user')->get('password'));
+				$user->setCompany($company);
+				$this->getOrm()->save($user);
+			}
+			
 			$this->getSession()->setFlash('success', 'Se añadió la compañía correctamente');
 			return $this->redirectByRoute('company_index');
 		}
@@ -28,25 +40,28 @@ class CompanyController extends Controller
 			'company' => $company
 		));
 	}
+	
+	public function removeAction($id)
+	{
+		$company = $this->findEntity('Company', $id);
+		
+		$this->getOrm()->remove($company);
+		$this->getSession()->setFlash('success', 'La compañía se ha eliminado correctamente');
+		return $this->redirectByRoute('company_index');
+	}
     
-    public function editAction($id)
+    public function detailAction($id)
 	{
 		$company = $this->findEntity('Company', $id);
 		
 		if($this->getRequest()->isPost()){
-			if($this->getRequest()->post()->has('remove')){
-				$this->getOrm()->remove($company);
-				$this->getSession()->setFlash('success', 'La compañía se ha eliminado correctamente');
-				return $this->redirectByRoute('company_index');
-			} else {
-				$this->bindIntoEntity($company, $this->getRequest()->post());
-				$this->getOrm()->save($company);
-				$this->getSession()->setFlash('success', 'Se han guardado los cambios correctamente');
-				return $this->reloadCurrentUri();
-			}
+			$this->bindIntoEntity($company, $this->getRequest()->post());
+			$this->getOrm()->save($company);
+			$this->getSession()->setFlash('success', 'Se han guardado los cambios correctamente');
+			return $this->reloadCurrentUri();
 		}
 		
-		return $this->render('Company:edit', array(
+		return $this->render('Company:detail', array(
 			'company' => $company
 		));
 	}

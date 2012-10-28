@@ -39,9 +39,9 @@ return array
             Roles::ADMIN,
         )
     ),
-	'user_edit' => array(
-		'path' => '/usuario/{id}/modificacion',
-        'controller' => 'User:edit',
+	'user_detail' => array(
+		'path' => '/usuario/{id}/detalle',
+        'controller' => 'User:detail',
         'roles' => array(
             Roles::ADMIN,
         )
@@ -74,22 +74,22 @@ return array
             Roles::ADMIN, Roles::COMPANY,
         )
     ),
-    'company_edit' => array(
-        'path' => '/compania/{id}/modificacion',
-        'controller' => 'Company:edit',
+    'company_detail' => array(
+        'path' => '/compania/{id}/detalle',
+        'controller' => 'Company:detail',
         'roles' => array(
             Roles::ADMIN, Roles::COMPANY,
         )
     ),
     'coverage_add' => array(
-        'path' => '/covertura/alta',
+        'path' => '/cobertura/alta',
         'controller' => 'Coverage:add',
         'roles' => array(
             Roles::ADMIN, Roles::COMPANY,
         )
     ),
     'coverage_remove' => array(
-        'path' => '/covertura/{id}/baja',
+        'path' => '/cobertura/{id}/baja',
         'controller' => 'Coverage:remove',
         'roles' => array(
             Roles::ADMIN, Roles::COMPANY,
@@ -109,9 +109,9 @@ return array
             Roles::ADMIN, Roles::PRODUCER,
         )
     ),
-    'producer_edit' => array(
-        'path' => '/productor/{id}/modificacion',
-        'controller' => 'Producer:edit',
+    'producer_detail' => array(
+        'path' => '/productor/{id}/detalle',
+        'controller' => 'Producer:detail',
         'roles' => array(
             Roles::ADMIN, Roles::PRODUCER,
         )
@@ -130,9 +130,9 @@ return array
             Roles::ADMIN, Roles::PRODUCER,
         )
     ),
-    'request_edit' => array(
-        'path' => '/solicitud/{id}/modificacion',
-        'controller' => 'Request:edit',
+    'request_detail' => array(
+        'path' => '/solicitud/{id}/detalle',
+        'controller' => 'Request:detail',
         'roles' => array(
             Roles::ADMIN, Roles::PRODUCER
         )
@@ -158,9 +158,9 @@ return array
             Roles::ADMIN, Roles::PRODUCER
         )
     ),
-    'taker_edit' => array(
-        'path' => '/cliente/{id}/modificacion',
-        'controller' => 'Taker:edit',
+    'taker_detail' => array(
+        'path' => '/cliente/{id}/detalle',
+        'controller' => 'Taker:detail',
         'roles' => array(
             Roles::ADMIN, Roles::PRODUCER
         )

@@ -96,6 +96,20 @@ class Company extends Entity
 	{
 		$this->discount = $discount;
 	}
+	
+	public function getUser()
+	{
+		return $this->getOrm()->getRepository('User')->findOneBy(array(
+			'companyId' => $this->getId()
+		));
+	}
+	
+	public function getCoverages()
+	{
+		return $this->getOrm()->getRepository('Coverage')->findAllBy(array(
+			'companyId' => $this->getId()
+		));
+	}
 
 }
 
