@@ -21,11 +21,13 @@ class CompanyController extends Controller
 			foreach($this->getRequest()->post() as $key => $value){
 				$company->{"set$key"}(trim($value));
 			}
-			$this->getOrm()->insert($company);
+			$this->getOrm()->save($company);
 			return $this->redirectByRoute('company_index');
 		}
 		
-		return $this->render('Company:add');
+		return $this->render('Company:add', array(
+			'company' => $company
+		));
 	}
     
     public function removeAction()
@@ -33,9 +35,28 @@ class CompanyController extends Controller
 		return $this->render('Company:remove');
 	}
     
-    public function editAction()
+    public function editAction($id)
 	{
-		return $this->render('Company:edit');
+		$company = $this->findEntity('Company', $id);
+		
+		if($this->getRequest()->isPost()){
+			if($this->getRequest()->post()->has('remove')){
+				$this->getOrm()->remove($company);
+				return $this->redirectByRoute('company_index');
+			} else {
+				foreach($this->getRequest()->post() as $key => $value){
+					if(method_exists($company, "set$key")){
+						$company->{"set$key"}(trim($value));
+					}
+				}
+				$this->getOrm()->save($company);
+				return $this->reloadCurrentUri();
+			}
+		}
+		
+		return $this->render('Company:edit', array(
+			'company' => $company
+		));
 	}
 }
 ?>

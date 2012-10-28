@@ -8,6 +8,11 @@ namespace Segdmin\Framework;
  */
 class Controller extends ApplicationAggregate
 {
+	public function findEntity($repoName, $id)
+	{
+		return $this->getOrm()->find($repoName, $id);
+	}
+	
 	public function render($viewName, array $parameters = array())
 	{
 		return new Http\Response($this->getApplication()->getTemplateManager()->renderView($viewName, $parameters));
@@ -21,6 +26,11 @@ class Controller extends ApplicationAggregate
 	public function redirectByRoute($routeName, array $params = array(), $absolute = false)
 	{
 		return $this->redirect($this->generateUrl($routeName, $params, $absolute));
+	}
+	
+	public function reloadCurrentUri($absolute)
+	{
+		return $this->redirect($this->getRequest()->absolutize($this->getRequest()->getUri(), $absolute));
 	}
 	
 	public function generateUrl($routeName, array $params = array(), $absolute = false)

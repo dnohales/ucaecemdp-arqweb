@@ -72,3 +72,9 @@ fieldset.margined {
 .entity-table-container header div:last-child {
 	float: right;
 }
+
+.button-list {
+	border-top: 1px solid #E5E5E5;
+    padding-top: 20px;
+    text-align: right;
+}
