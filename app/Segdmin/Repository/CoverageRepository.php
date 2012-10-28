@@ -16,7 +16,7 @@ class CoverageRepository extends EntityRepository
 			'id' => 'id',
 			'companyId' => 'int',
 			'description' => 'string',
-			'rate' => 'int',
+			'rate' => 'float',
 		));
 	}
 }

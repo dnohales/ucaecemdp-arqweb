@@ -17,6 +17,9 @@ class UserRepository extends EntityRepository
 			'email' => 'string',
 			'password' => 'string',
 			'salt' => 'string',
+			'adminId' => 'int',
+			'producerId' => 'int',
+			'companyId' => 'int',
 		));
 	}
 }
