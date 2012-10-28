@@ -21,6 +21,7 @@
 	</ul>
 </div>
 <div id="content" class="well span7">
+	<?= $this->partial('Base:_flashes') ?>
 	<?php $this->block('content') ?>
 	<?php $this->endBlock() ?>
 </div>

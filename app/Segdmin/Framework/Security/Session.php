@@ -39,6 +39,10 @@ class Session
 		} else {
 			$this->user = new AnonymousUser();
 		}
+		
+		if(!isset($_SESSION['flashes'])){
+			$_SESSION['flashes'] = array();
+		}
 	}
 	
 	static public function createInstance(ORM $orm)
@@ -77,6 +81,7 @@ class Session
 			'class' => get_class($user),
 			'id' => $user->getId()
 		);
+		$_SESSION['flashes'] = array();
 	}
 	
 	public function logout()
@@ -102,7 +107,29 @@ class Session
 	{
 		$this->contextRequest = $contextRequest;
 	}
-
+	
+	public function setFlash($key, $value)
+	{
+		$_SESSION['flashes'][$key] = $value;
+	}
+	
+	public function getFlash($key, $remove = true)
+	{
+		if(isset($_SESSION['flashes'][$key])){
+			$o = $_SESSION['flashes'][$key];
+			if($remove){
+				unset($_SESSION['flashes'][$key]);
+			}
+			return $o;
+		} else {
+			return null;
+		}
+	}
+	
+	public function hasFlash($key)
+	{
+		return isset($_SESSION['flashes'][$key]);
+	}
 
 }
 
