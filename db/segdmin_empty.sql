@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 27-10-2012 a las 17:24:23
+-- Tiempo de generación: 29-10-2012 a las 13:17:26
 -- Versión del servidor: 5.5.24
 -- Versión de PHP: 5.3.10-1ubuntu3.4
 
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `coverage` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `companyId` int(11) NOT NULL,
   `description` text NOT NULL,
-  `rate` int(11) NOT NULL COMMENT '% taza',
+  `rate` double NOT NULL COMMENT '% taza',
   PRIMARY KEY (`id`),
   KEY `companyId` (`companyId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -135,10 +135,10 @@ CREATE TABLE IF NOT EXISTS `user` (
   `companyId` int(11) DEFAULT NULL,
   `producerId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `adminId` (`adminId`),
-  UNIQUE KEY `companyId` (`companyId`),
-  UNIQUE KEY `producerId` (`producerId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+  KEY `adminId` (`adminId`),
+  KEY `companyId` (`companyId`),
+  KEY `producerId` (`producerId`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 --
 -- Volcado de datos para la tabla `user`
@@ -174,6 +174,6 @@ ALTER TABLE `taker`
 -- Filtros para la tabla `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `user_ibfk_3` FOREIGN KEY (`producerId`) REFERENCES `producer` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`adminId`) REFERENCES `admin` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`companyId`) REFERENCES `company` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`adminId`) REFERENCES `admin` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`companyId`) REFERENCES `company` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `user_ibfk_3` FOREIGN KEY (`producerId`) REFERENCES `producer` (`id`) ON DELETE SET NULL;
