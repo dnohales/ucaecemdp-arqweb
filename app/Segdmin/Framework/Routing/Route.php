@@ -22,12 +22,10 @@ class Route
 	
 	private $roles;
 	
-	public function __construct($name, $path, $controller, array $roles)
+	private $allowedMethods;
+	
+	public function __construct()
 	{
-		$this->setName($name);
-		$this->setPath($path);
-		$this->setController($controller);
-		$this->setRoles($roles);
 	}
 	
 	public function getName()
@@ -35,7 +33,7 @@ class Route
 		return $this->name;
 	}
 
-	private function setName($name)
+	public function setName($name)
 	{
 		$this->name = $name;
 	}
@@ -45,7 +43,7 @@ class Route
 		return $this->path;
 	}
 
-	private function setPath($path)
+	public function setPath($path)
 	{
 		$this->path = $path;
 	}
@@ -65,7 +63,7 @@ class Route
 		return $this->controllerMethod;
 	}
 
-	private function setController($controller)
+	public function setController($controller)
 	{
 		$controllerParts = explode(':', $controller);
 		if(count($controllerParts) != 2){
@@ -82,7 +80,7 @@ class Route
 		return $this->roles;
 	}
 
-	private function setRoles(array $roles)
+	public function setRoles(array $roles)
 	{
 		$this->roles = $roles;
 	}
@@ -90,6 +88,31 @@ class Route
 	public function isUserGranted(UserInterface $user)
 	{
 		return count(array_intersect($this->getRoles(), $user->getRoles())) > 0;
+	}
+	
+	public function getAllowedMethods()
+	{
+		return $this->allowedMethods;
+	}
+	
+	public function setAllowedMethods(array $allowedMethods = null)
+	{
+		if($allowedMethods === null){
+			$this->allowedMethods = $allowedMethods;
+		} else {
+			$this->allowedMethods = array();
+			foreach($allowedMethods as $method){
+				$this->allowedMethods[] = strtoupper($method);
+			}
+		}
+	}
+	
+	public function isMethodAllowed($method)
+	{
+		if($this->getAllowedMethods() === null){
+			return true;
+		}
+		return in_array($method, $this->getAllowedMethods(), true);
 	}
 
 }

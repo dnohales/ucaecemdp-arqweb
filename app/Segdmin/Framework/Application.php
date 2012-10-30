@@ -120,6 +120,7 @@ class Application
 		$this->currentRequest = $request;
 		$this->router->setContextRequest($request);
 		$this->session->setContextRequest($request);
+		$exception = null;
 		
 		try{
 			$resolution = $this->router->match($request);
@@ -132,11 +133,24 @@ class Application
 				}
 			}
 			
+			if(!$resolution->getRoute()->isMethodAllowed($request->getMethod())){
+				return new Http\ErrorResponse(null, 400);
+			}
+			
 			$response = $this->invokeController($resolution);
 			return $this->sanitizeResponse($response);
 		} catch(Exception\RouterException $e){
 			return new Http\ErrorResponse($e->getMessage(), 404);
+		} catch(Exception\HttpException $e){
+			$exception = $e;
+			$response = $e->createResponse();
+		} catch(\Exception $e){
+			$exception = $e;
+			$response = new Http\ErrorResponse($e->getMessage(), 500);
 		}
+		
+		Logger::error($exception->getMessage(), 'app.exception');
+		return $response;
 	}
 	
 	private function invokeController(Routing\RouterResolution $resolution)
@@ -176,6 +190,11 @@ class Application
 		}
 		
 		return $reflectionMethod->invokeArgs($controller, $invokeParameters);
+	}
+	
+	public function handleError($errno, $errstr, $errfile, $errline, $errcontext)
+	{
+		throw new RuntimeException("$errstr en $errfile en la línea $errline");
 	}
 	
 	private function sanitizeResponse($response)

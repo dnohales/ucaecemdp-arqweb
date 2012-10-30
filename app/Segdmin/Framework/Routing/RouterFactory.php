@@ -16,7 +16,13 @@ class RouterFactory
 			if(!isset($routeData['roles'])){
 				$routeData['roles'] = array();
 			}
-			$routes[$routeName] = new Route($routeName, $routeData['path'], $routeData['controller'], $routeData['roles']);
+			$route = new Route();
+			$route->setName($routeName);
+			$route->setPath($routeData['path']);
+			$route->setController($routeData['controller']);
+			$route->setRoles($routeData['roles']);
+			$route->setAllowedMethods(isset($routeData['allowedMethods'])? $routeData['allowedMethods']:null);
+			$routes[$routeName] = $route;
 		}
 		
 		$router = new Router();

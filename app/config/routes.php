@@ -49,6 +49,7 @@ return array
     'user_remove' => array(
         'path' => '/usuario/{id}/baja',
         'controller' => 'User:remove',
+		'allowedMethods' => array('POST'),
         'roles' => array(
             Roles::ADMIN,
         )
@@ -70,6 +71,7 @@ return array
     'company_remove' => array(
         'path' => '/compania/{id}/baja',
         'controller' => 'Company:remove',
+		'allowedMethods' => array('POST'),
         'roles' => array(
             Roles::ADMIN, Roles::COMPANY,
         )
@@ -91,6 +93,7 @@ return array
     'coverage_remove' => array(
         'path' => '/cobertura/{id}/baja',
         'controller' => 'Coverage:remove',
+		'allowedMethods' => array('POST'),
         'roles' => array(
             Roles::ADMIN, Roles::COMPANY,
         )
@@ -112,6 +115,7 @@ return array
     'producer_remove' => array(
         'path' => '/productor/{id}/baja',
         'controller' => 'Producer:remove',
+		'allowedMethods' => array('POST'),
         'roles' => array(
             Roles::ADMIN, Roles::PRODUCER,
         )
@@ -133,6 +137,7 @@ return array
     'request_remove' => array(
         'path' => '/solicitud/{id}/baja',
         'controller' => 'Request:remove',
+		'allowedMethods' => array('POST'),
         'roles' => array(
             Roles::ADMIN, Roles::PRODUCER,
         )
@@ -161,6 +166,7 @@ return array
     'taker_remove' => array(
         'path' => '/cliente/{id}/baja',
         'controller' => 'Taker:remove',
+		'allowedMethods' => array('POST'),
         'roles' => array(
             Roles::ADMIN, Roles::PRODUCER
         )

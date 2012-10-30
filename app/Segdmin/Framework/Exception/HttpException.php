@@ -2,6 +2,7 @@
 namespace Segdmin\Framework\Exception;
 
 use Segdmin\Framework\Http\StatusCode;
+use Segdmin\Framework\Http\ErrorResponse;
 
 /**
  * Description of HttpException
@@ -34,4 +35,9 @@ class HttpException extends \RuntimeException
     {
         return $this->headers;
     }
+	
+	public function createResponse()
+	{
+		return new ErrorResponse($this->getMessage(), $this->getStatusCode(), $this->getHeaders());
+	}
 }
