@@ -30,10 +30,17 @@
 				<td><?= $e->getId() ?></td>
 				<?php foreach(array_values($fields) as $n => $p): ?>
 					<td>
+						<?php 
+						if($p instanceof \Closure){
+							$p = $p($e);
+						} else {
+							$p = $e->{"get$p"}();
+						}
+						?>
 						<?php if($n == 0): ?>
-							<a href="<?= $this->url($detailRoute, array('id' => $e->getId())) ?>"><?= $e->{"get$p"}() ?></a>
+							<a href="<?= $this->url($detailRoute, array('id' => $e->getId())) ?>"><?= $p ?></a>
 						<?php else: ?>
-							<?= $e->{"get$p"}() ?>
+							<?= $p ?>
 						<?php endif; ?>
 					</td>
 				<?php endforeach; ?>

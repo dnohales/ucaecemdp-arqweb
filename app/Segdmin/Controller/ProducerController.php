@@ -43,6 +43,7 @@ class ProducerController extends Controller
 	{
 		$producer = $this->findEntity('Producer', $id);
 		
+		$this->getOrm()->remove($producer->getUser());
 		$this->getOrm()->remove($producer);
 		$this->getSession()->setFlash('success', 'El productor se ha eliminado correctamente');
 		return $this->redirectByRoute('producer_index');

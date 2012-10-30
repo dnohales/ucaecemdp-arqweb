@@ -156,6 +156,13 @@ return array
             Roles::ADMIN, Roles::COMPANY
         )
     ),
+	'taker_index' => array(
+        'path' => '/cliente',
+        'controller' => 'Taker:index',
+        'roles' => array(
+            Roles::ADMIN, Roles::PRODUCER
+        )
+    ),
     'taker_add' => array(
         'path' => '/cliente/alta',
         'controller' => 'Taker:add',

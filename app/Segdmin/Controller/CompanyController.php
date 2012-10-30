@@ -43,6 +43,7 @@ class CompanyController extends Controller
 	{
 		$company = $this->findEntity('Company', $id);
 		
+		$this->getOrm()->remove($company->getUser());
 		$this->getOrm()->remove($company);
 		$this->getSession()->setFlash('success', 'La compañía se ha eliminado correctamente');
 		return $this->redirectByRoute('company_index');

@@ -5,6 +5,22 @@ use Segdmin\Framework\Controller;
 
 class TakerController extends Controller
 {
+	public function indexAction()
+	{
+		$producer = $this->getUser()->getProducer();
+		if($producer !== null){
+			$takers = $this->getOrm()->getRepository('Taker')->findAllBy(array(
+				'producerId' => $producer->getId()
+			));
+		} else {
+			$takers = $this->getOrm()->getRepository('Taker')->findAll();
+		}
+		
+		return $this->render('Taker:index', array(
+			'takers' => $takers
+		));
+	}
+	
 	public function addAction()
 	{
 		return $this->render('Taker:add');

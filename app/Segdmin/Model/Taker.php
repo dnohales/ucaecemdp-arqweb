@@ -8,6 +8,10 @@ namespace Segdmin\Model;
  */
 class Taker extends Entity
 {
+	const COND_FINALCONSUMER = 1;
+	const COND_MONO = 2;
+	const COND_REGRESPONSIBLE = 3;
+	
 	private $producerId;
 	private $email;
 	private $name;
@@ -57,6 +61,11 @@ class Taker extends Entity
 	public function setLastName($lastName)
 	{
 		$this->lastName = $lastName;
+	}
+	
+	public function getFullName()
+	{
+		return $this->getName().' '.$this->getLastName();
 	}
 
 	public function getAddress()
@@ -108,6 +117,15 @@ class Taker extends Entity
 	{
 		$this->phones = $phones;
 	}
+	
+	static public function getConditionInformation()
+	{
+		return array(
+			self::COND_FINALCONSUMER => 'Consumidor final',
+			self::COND_MONO => 'Monotributista',
+			self::COND_REGRESPONSIBLE => 'Responsable inscripto',
+		);
+	}
 
 	public function getCondition()
 	{
@@ -118,6 +136,12 @@ class Taker extends Entity
 	{
 		$this->condition = $condition;
 	}
-
+	
+	public function getRequests()
+	{
+		return $this->getOrm()->getRepository('Request')->findAllBy(array(
+			'takerId' => $this->getId()
+		));
+	}
 }
 

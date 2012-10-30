@@ -102,6 +102,11 @@ class User extends UserEntity
 		return $this->relatedEntity;
 	}
 	
+	public function getAdmin()
+	{
+		return $this->getOrm()->find('Admin', $this->adminId);
+	}
+	
 	public function setAdmin(Admin $admin)
 	{
 		$this->companyId = null;
@@ -110,12 +115,22 @@ class User extends UserEntity
 		$this->relatedEntity = false;
 	}
 	
+	public function getCompany()
+	{
+		return $this->getOrm()->find('Company', $this->companyId);
+	}
+	
 	public function setCompany(Company $company)
 	{
 		$this->companyId = $company->getId();
 		$this->producerId = null;
 		$this->adminId = null;
 		$this->relatedEntity = false;
+	}
+	
+	public function getProducer()
+	{
+		return $this->getOrm()->find('Producer', $this->producerId);
 	}
 	
 	public function setProducer(Producer $producer)

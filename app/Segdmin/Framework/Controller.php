@@ -17,7 +17,21 @@ class Controller extends ApplicationAggregate
 	 */
 	public function findEntity($repoName, $id)
 	{
-		return $this->getOrm()->find($repoName, $id);
+		$entity = $this->getOrm()->find($repoName, $id);
+		if($entity === null){
+			throw $this->createNotFoundException();
+		}
+		return $entity;
+	}
+	
+	public function createNotFoundException()
+	{
+		return new Exception\HttpException(404);
+	}
+	
+	public function createForbbidenException()
+	{
+		return new Exception\HttpException(403);
 	}
 	
 	public function render($viewName, array $parameters = array())
@@ -67,6 +81,11 @@ class Controller extends ApplicationAggregate
 	public function getSession()
 	{
 		return $this->getApplication()->getSession();
+	}
+	
+	public function getUser()
+	{
+		return $this->getSession()->getUser();
 	}
 	
 	public function bindIntoEntity($entity, $data)
