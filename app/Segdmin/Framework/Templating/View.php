@@ -74,7 +74,7 @@ class View
 	public function partial($viewName, array $parameters = array())
 	{
 		$this->afterExtendReached = true;
-		echo $this->templateManager->renderView($viewName, $parameters);
+		return $this->templateManager->renderView($viewName, $parameters);
 	}
 	
 	public function parentBlock()

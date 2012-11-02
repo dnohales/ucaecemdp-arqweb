@@ -1,12 +1,12 @@
 <p>
-	Usuario: <strong><?= $entity->getUser()->getEmail() ?></strong>
+	Usuario: <strong><?= $producer->getUser()->getEmail() ?></strong>
 	&nbsp;<a href="#" title="Editar usuario" class="btn"><i class="icon icon-pencil"></i></a>
 </p>
 <legend>Datos Personales</legend>
 <fieldset class="margined">
-	<p>Nombre: <strong><?= $entity->getName() ?></strong>
-	<p>Apellido: <strong><?= $entity->getLastName() ?></strong>
-	<p>DNI: <strong><?= $entity->getDni() ?></strong>
-	<p>Dirección: <strong><?= $entity->getAddress() ?></strong>
-	<p>Teléfonos: <strong><?= $entity->getPhones() ?></strong>
+	<p>Nombre: <strong><?= $producer->getName() ?></strong>
+	<p>Apellido: <strong><?= $producer->getLastName() ?></strong>
+	<p>DNI: <strong><?= $producer->getDni() ?></strong>
+	<p>Dirección: <strong><?= $producer->getAddress() ?></strong>
+	<p>Teléfonos: <strong><?= $producer->getPhones() ?></strong>
 </fieldset>

@@ -1,6 +1,6 @@
 <?php $this->extend('Base:full') ?>
 
-<?php $this->block('title'); ?>Agregar nueva cobertura - <?php echo $this->parentBlock(); $this->endBlock() ?>
+<?php $this->parentBlockPrepending('title', 'Agregar nueva cobertura - ') ?>
 
 <?php $this->block('content') ?>
 <h1>Agregar nueva cobertura</h1>

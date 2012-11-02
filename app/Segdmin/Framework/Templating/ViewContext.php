@@ -23,12 +23,28 @@ class ViewContext
 	
 	public function partial($viewName, array $parameters = array())
 	{
-		$this->view->partial($viewName, $parameters);
+		return $this->view->partial($viewName, $parameters);
 	}
 	
 	public function parentBlock()
 	{
 		return $this->view->parentBlock();
+	}
+	
+	public function parentBlockAppending($blockName, $content)
+	{
+		$this->block($blockName);
+		echo $this->parentBlock();
+		echo $content;
+		$this->endBlock();
+	}
+	
+	public function parentBlockPrepending($blockName, $content)
+	{
+		$this->block($blockName);
+		echo $content;
+		echo $this->parentBlock();
+		$this->endBlock();
 	}
 	
 	public function block($blockName)

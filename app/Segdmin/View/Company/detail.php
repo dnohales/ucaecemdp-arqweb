@@ -4,8 +4,8 @@
 <?= $this->partial('Entity:_genericDetail', array(
 	'entity' => $company,
 	'title' => 'Detalles de la compañía',
-	'editView' => 'Company:_form',
-	'showView' => 'Company:_show',
+	'editView' => $this->partial('Company:_form', array('company' => $company)),
+	'showView' => $this->partial('Company:_show', array('company' => $company)),
 	'removeRoute' => 'company_remove'
 )) ?>
 <?php $this->endBlock() ?>

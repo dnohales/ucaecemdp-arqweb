@@ -12,13 +12,13 @@
 		</div>
 		<div class="clearfix"></div>
 		<div class="entity-show-data">
-			<?= $this->partial($showView, array('entity' => $entity)) ?>
+			<?= $showView ?>
 		</div>
 	</div>
 
 	<div class="entity-edit hide">
 		<form action="<?= $this->currentUri() ?>" method="post">
-			<?= $this->partial($editView, array('entity' => $entity)) ?>
+			<?= $editView ?>
 			<div class="button-list">
 				<button type="button" class="btn entity-canceledit">Cancelar</button>
 				<button type="submit" class="btn btn-primary">Guardar cambios</button>
