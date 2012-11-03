@@ -51,6 +51,9 @@ class Application
 		$this->orm = new Database\ORM($this->createPdo());
 		$this->logger = Logger::createInstance();
 		$this->session = Security\Session::createInstance($this->orm);
+		
+		error_reporting( -1 );
+		set_error_handler(array($this, 'handleError'), E_ALL);
 	}
 	
 	public function getWebPath()
@@ -194,7 +197,7 @@ class Application
 	
 	public function handleError($errno, $errstr, $errfile, $errline, $errcontext)
 	{
-		throw new RuntimeException("$errstr en $errfile en la línea $errline");
+		throw new \RuntimeException("$errstr en $errfile en la línea $errline");
 	}
 	
 	private function sanitizeResponse($response)
