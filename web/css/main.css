@@ -26,8 +26,20 @@ input:disabled {
 }
 
 #header {
-	background-color: #262626;
+	background-color: #025A86;
+	border-bottom: solid 1px #025A86;
 	color: lightgrey;
+}
+
+#menu {
+	width: 200px;
+	float: left;
+}
+
+#content {
+	width: 660px;
+	float: left;
+	margin-left: 20px;
 }
 
 #footer {
@@ -40,9 +52,6 @@ input:disabled {
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
     margin-bottom: 20px;
     padding: 19px;
-}
-
-#footer {
 }
 
 .footer-note {
@@ -84,3 +93,35 @@ div.form-row {
     padding-top: 20px;
     text-align: right;
 }
+
+.pager .pagedisplay {
+	border-radius: 7px;
+	font-weight: bold;
+}
+
+.pager label {
+	display: inline;
+	vertical-align:	text-bottom;
+}
+
+.pager .pagecontrol {
+	margin-top: 10px;
+}
+
+.pager > .pagecontrol > div {
+	display: inline;
+}
+
+.pager > .pagecontrol > div:last-child {
+	margin-left: 10px;
+}
+
+/*.pager a {
+	border-radius: 7px;
+	color: #555;
+	transition: color 0.5s ease-in 0s;
+}
+
+.pager a:hover, .pager a.pagedisplay {
+	color: #333;
+}*/

@@ -1,5 +1,3 @@
-<h1><?= $title ?></h1>
-
 <div class="entity-table-container">
 	<header>
 		<div>
@@ -15,13 +13,16 @@
 		</div>
 	</header>
 	<div class="clearfix"></div>
-	<table class="table">
+	<table class="table tablesorter">
+		<thead>
 		<tr>
 			<th>#</th>
 			<?php foreach(array_keys($fields) as $f): ?>
 				<th><?= $f ?></th>
 			<?php endforeach; ?>
 		</tr>
+		</thead>
+		<tbody>
 		<?php if($entities->isEmpty()): ?>
 			<tr><td colspan="<?= count($fields) + 1 ?>">No hay resultados disponibles</td></tr>
 		<?php else: ?>
@@ -47,5 +48,7 @@
 			</tr>
 			<?php endforeach; ?>
 		<?php endif; ?>
+		</tbody>
 	</table>
+	<?= $this->partial('Base:_pager') ?>
 </div>

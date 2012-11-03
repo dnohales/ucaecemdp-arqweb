@@ -4,16 +4,20 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title><?php $this->block('title') ?>Sistema de gestión de seguros<?php $this->endBlock() ?></title>
 		<?php $this->block('css') ?>
-			<link rel="stylesheet" type="text/css" href="<?php echo $this->asset('css/bootstrap.min.css') ?>" />
-			<link rel="stylesheet" type="text/css" href="<?php echo $this->asset('css/jquery-ui-theme/jquery-ui.custom.min.css') ?>" />
-			<link rel="stylesheet" type="text/css" href="<?php echo $this->asset('css/main.css') ?>" />
+			<link rel="stylesheet" type="text/css" href="<?= $this->asset('css/bootstrap.min.css') ?>" />
+			<link rel="stylesheet" type="text/css" href="<?= $this->asset('css/jquery-ui-theme/jquery-ui.custom.min.css') ?>" />
+			<link rel="stylesheet" type="text/css" href="<?= $this->asset('css/jquery.tablesorter.pager.theme.bootstrap.css') ?>" />
+			<link rel="stylesheet" type="text/css" href="<?= $this->asset('css/main.css') ?>" />
 		<?php $this->endBlock() ?>
 		<?php $this->block('js') ?>
-			<script type="text/javascript" src="<?php echo $this->asset('js/bootstrap.min.js') ?>"></script>
-			<script type="text/javascript" src="<?php echo $this->asset('js/jquery.min.js') ?>"></script>
-			<script type="text/javascript" src="<?php echo $this->asset('js/jquery-ui.min.js') ?>"></script>
-			<script type="text/javascript" src="<?php echo $this->asset('js/jqModal.js') ?>"></script>
-			<script type="text/javascript" src="<?php echo $this->asset('js/main.js') ?>"></script>
+			<script type="text/javascript" src="<?= $this->asset('js/bootstrap.min.js') ?>"></script>
+			<script type="text/javascript" src="<?= $this->asset('js/jquery.min.js') ?>"></script>
+			<script type="text/javascript" src="<?= $this->asset('js/jquery-ui.min.js') ?>"></script>
+			<script type="text/javascript" src="<?= $this->asset('js/jquery.tablesorter.min.js') ?>"></script>
+			<script type="text/javascript" src="<?= $this->asset('js/jquery.tablesorter.widgets.min.js') ?>"></script>
+			<script type="text/javascript" src="<?= $this->asset('js/jquery.tablesorter.pager.min.js') ?>"></script>
+			<script type="text/javascript" src="<?= $this->asset('js/jqModal.js') ?>"></script>
+			<script type="text/javascript" src="<?= $this->asset('js/main.js') ?>"></script>
 		<?php $this->endBlock() ?>
 	</head>
 	<body>
