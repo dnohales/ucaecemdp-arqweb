@@ -30,7 +30,7 @@ class ORMHelper
 		
 		foreach($mapping->getProperties() as $name => $type){
 			if($name != $mapping->getIdField()){
-				$parts[] = "$name = :property_$name";
+				$parts[] = "`$name` = :property_$name";
 			}
 		}
 		
@@ -61,12 +61,10 @@ class ORMHelper
 	public function normalizeQuery($query, MappingInformation $mapping)
 	{
 		$replacements = array(
-			'{table}' => $mapping->getTableName(),
-			'{idfield}' => $mapping->getIdField()
+			'{table}' => '`'.$mapping->getTableName().'`',
+			'{idfield}' => '`'.$mapping->getIdField().'`'
 		);
 		
 		return str_replace(array_keys($replacements), array_values($replacements), $query);
 	}
 }
-
-?>

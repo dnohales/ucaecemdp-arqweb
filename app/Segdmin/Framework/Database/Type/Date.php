@@ -6,16 +6,16 @@ namespace Segdmin\Framework\Database\Type;
  *
  * @author eagleoneraptor
  */
-class DateTime implements TypeInterface
+class Date implements TypeInterface
 {
 	public function toNative($value)
 	{
-		return $value === null? null:\DateTime::createFromFormat('Y-m-d H:i:s', $value);
+		return $value === null? null:\DateTime::createFromFormat('Y-m-d', $value);
 	}
 	
 	public function toDatabase($value)
 	{
-		return $value === null? null:$value->format('Y-m-d H:i:s');
+		return $value === null? null:$value->format('Y-m-d');
 	}
 	
 	public function bindFormat()
