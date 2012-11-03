@@ -8,6 +8,10 @@ namespace Segdmin\Model;
  */
 class Request extends Entity
 {
+	const STATE_PENDING  = 2;
+	const STATE_ACCEPTED = 1;
+	const STATE_REJECTED = 0;
+	
 	private $takerId;
 	private $coverageId;
 	private $accepted;
@@ -85,6 +89,27 @@ class Request extends Entity
 	public function setComment($comment)
 	{
 		$this->comment = $comment;
+	}
+	
+	public function getAcceptedState()
+	{
+		if($this->accepted === true){
+			return self::STATE_ACCEPTED;
+		} else if($this->accepted === false){
+			return self::STATE_REJECTED;
+		} else {
+			return self::STATE_PENDING;
+		}
+	}
+	
+	public function accept()
+	{
+		$this->accepted = true;
+	}
+	
+	public function reject()
+	{
+		$this->accepted = false;
 	}
 
 }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 29-10-2012 a las 13:17:26
+-- Tiempo de generación: 03-11-2012 a las 13:19:39
 -- Versión del servidor: 5.5.24
 -- Versión de PHP: 5.3.10-1ubuntu3.4
 
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `taker` (
   `cuit` varchar(20) NOT NULL,
   `birth` date NOT NULL,
   `phones` varchar(100) NOT NULL,
-  `condition` tinyint(4) NOT NULL COMMENT 'Flag: 0=>cons.final / 1=>mono. / 2=>resp.inscr.',
+  `situation` tinyint(4) NOT NULL COMMENT 'Flag: 0=>cons.final / 1=>mono. / 2=>resp.inscr.',
   PRIMARY KEY (`id`),
   KEY `producerId` (`producerId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -155,25 +155,25 @@ INSERT INTO `user` (`id`, `email`, `password`, `salt`, `adminId`, `companyId`, `
 -- Filtros para la tabla `coverage`
 --
 ALTER TABLE `coverage`
-  ADD CONSTRAINT `coverage_ibfk_1` FOREIGN KEY (`companyId`) REFERENCES `company` (`id`);
+  ADD CONSTRAINT `coverage_ibfk_1` FOREIGN KEY (`companyId`) REFERENCES `company` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `request`
 --
 ALTER TABLE `request`
-  ADD CONSTRAINT `request_ibfk_2` FOREIGN KEY (`coverageId`) REFERENCES `coverage` (`id`),
-  ADD CONSTRAINT `request_ibfk_1` FOREIGN KEY (`takerId`) REFERENCES `taker` (`id`);
+  ADD CONSTRAINT `request_ibfk_1` FOREIGN KEY (`takerId`) REFERENCES `taker` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `request_ibfk_2` FOREIGN KEY (`coverageId`) REFERENCES `coverage` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `taker`
 --
 ALTER TABLE `taker`
-  ADD CONSTRAINT `taker_ibfk_1` FOREIGN KEY (`producerId`) REFERENCES `producer` (`id`);
+  ADD CONSTRAINT `taker_ibfk_1` FOREIGN KEY (`producerId`) REFERENCES `producer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`adminId`) REFERENCES `admin` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`companyId`) REFERENCES `company` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `user_ibfk_3` FOREIGN KEY (`producerId`) REFERENCES `producer` (`id`) ON DELETE SET NULL;
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`adminId`) REFERENCES `admin` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`companyId`) REFERENCES `company` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_ibfk_3` FOREIGN KEY (`producerId`) REFERENCES `producer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

@@ -24,22 +24,11 @@
 	<p>Porcentaje de descuento: <strong><?= $company->getDiscount() ?>%</strong>
 </fieldset>
 <legend>Coberturas</legend>
-<table class="table">
-	<tr>
-		<th>#</th>
-		<th>Descripción</th>
-		<th>Taza</th>
-	</tr>
-	<?php $coverages = $company->getCoverages() ?>
-	<?php if($coverages->isEmpty()): ?>
-		<tr><td colspan="3">No hay ninguna cobertura</td></tr>
-	<?php else: ?>
-		<?php foreach($coverages as $c): ?>
-		<tr>
-			<td><?= $c->getId() ?></td>
-			<td><a href="<?= $this->url('coverage_detail', array('id' => $c->getId())) ?>"><?= $c->getDescription() ?></a></td>
-			<td><?= $c->getRate() ?></td>
-		</tr>
-		<?php endforeach; ?>
-	<?php endif; ?>
-</table>
+<?= $this->partial('Entity:_table', array(
+	'detailRoute' => 'coverage_detail',
+	'entities' => $company->getCoverages(),
+	'fields' => array(
+		'Descripción' => 'description',
+		'Tasa' => 'rate',
+	)
+)); ?>

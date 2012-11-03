@@ -1,5 +1,7 @@
 <?php $this->extend('Base:full') ?>
 
+<?php $this->parentBlockPrepending('title', 'Añadir nueva compañía - ') ?>
+
 <?php $this->block('content') ?>
 <h1>Añadiendo compañía</h1>
 

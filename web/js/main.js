@@ -64,6 +64,7 @@ $(function(){
 		show.fadeOut('fast', function(){
 			edit.fadeIn('fast');
 		});
+		$('.entity-detail .entity-edit form').get(0).reset();
 	});
 	
 	$('.entity-detail .entity-canceledit').click(function(){

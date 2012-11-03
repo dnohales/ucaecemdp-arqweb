@@ -7,16 +7,17 @@
 
 <form action="<?= $this->currentUri() ?>" method="post">
 	<label>Compañía</label>
+	<?php if($this->user()->getCompany() === null): ?>
 	<select name="companyId" required>
 		<option value="">Seleccione...</option>
 		<?php foreach($companies as $c): ?>
 			<option value="<?= $c->getId() ?>"><?= $c->getId().': '.$c->getName() ?></option>
 		<?php endforeach; ?>
 	</select>
-	<label>Descripcion</label>
-	<input type="text" name="description" required />
-	<label>Porcentaje de la tasa</label>
-	<input type="text" name="rate" required />
+	<?php endif; ?>
+	<?= $this->partial('Coverage:_form', array(
+		'coverage' => $coverage
+	)) ?>
 	<div class="button-list">
 		<button type="submit" class="btn btn-success">Crear cobertura</button>
 	</div>

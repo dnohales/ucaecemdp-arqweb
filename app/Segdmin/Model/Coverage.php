@@ -21,6 +21,11 @@ class Coverage extends Entity
 	{
 		$this->companyId = $companyId;
 	}
+	
+	public function getCompany()
+	{
+		return $this->getOrm()->find('Company', $this->getCompanyId());
+	}
 
 	public function getDescription()
 	{

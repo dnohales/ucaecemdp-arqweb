@@ -25,6 +25,13 @@ return array
             Roles::LOGGEDIN,
         )
     ),
+	'profile' => array(
+        'path' => '/micuenta',
+        'controller' => 'Main:profile',
+        'roles' => array(
+            Roles::LOGGEDIN,
+        )
+    ),
     'user_index' => array(
         'path' => '/usuario',
         'controller' => 'User:index',
@@ -83,6 +90,13 @@ return array
             Roles::ADMIN, Roles::COMPANY,
         )
     ),
+	'coverage_index' => array(
+        'path' => '/cobertura',
+        'controller' => 'Coverage:index',
+        'roles' => array(
+            Roles::ADMIN, Roles::COMPANY,
+        )
+    ),
     'coverage_add' => array(
         'path' => '/cobertura/alta',
         'controller' => 'Coverage:add',
@@ -94,6 +108,13 @@ return array
         'path' => '/cobertura/{id}/baja',
         'controller' => 'Coverage:remove',
 		'allowedMethods' => array('POST'),
+        'roles' => array(
+            Roles::ADMIN, Roles::COMPANY,
+        )
+    ),
+	'coverage_detail' => array(
+        'path' => '/cobertura/{id}/detalle',
+        'controller' => 'Coverage:detail',
         'roles' => array(
             Roles::ADMIN, Roles::COMPANY,
         )
