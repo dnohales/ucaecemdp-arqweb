@@ -12,9 +12,12 @@ class TemplateManager extends ApplicationAggregate
 {
 	private $viewBasePath;
 	
+	private $htmlHelper;
+	
 	public function __construct($viewBasePath)
 	{
 		$this->viewBasePath = $viewBasePath;
+		$this->htmlHelper = new HtmlHelper();
 	}
 	
 	public function getViewBasePath()
@@ -25,6 +28,11 @@ class TemplateManager extends ApplicationAggregate
 	public function setViewBasePath($viewBasePath)
 	{
 		$this->viewBasePath = $viewBasePath;
+	}
+	
+	public function getHtmlHelper()
+	{
+		return $this->htmlHelper;
 	}
 	
 	public function getViewFile($viewName)

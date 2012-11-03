@@ -92,6 +92,11 @@ class ViewContext
 		return $this->request()->absolutize($this->request()->getUri(), $absolute);
 	}
 	
+	public function html()
+	{
+		return $this->view->getTemplateManager()->getHtmlHelper();
+	}
+	
 	public function invokeView()
 	{
 		extract($this->view->getParameters());
