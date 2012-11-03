@@ -1,12 +1,17 @@
+<?php if($this->user()->getProducer() === null): ?>
 <p>
-	Usuario: <strong><?= $producer->getUser()->getEmail() ?></strong>
-	&nbsp;<a href="#" title="Editar usuario" class="btn"><i class="icon icon-pencil"></i></a>
+	Productor: <strong><?= $taker->getProducer()->getFullName() ?></strong>
 </p>
+<?php endif; ?>
 <legend>Datos Personales</legend>
 <fieldset class="margined">
-	<p>Nombre: <strong><?= $producer->getName() ?></strong>
-	<p>Apellido: <strong><?= $producer->getLastName() ?></strong>
-	<p>DNI: <strong><?= $producer->getDni() ?></strong>
-	<p>Dirección: <strong><?= $producer->getAddress() ?></strong>
-	<p>Teléfonos: <strong><?= $producer->getPhones() ?></strong>
+	<p>Nombre: <strong><?= $taker->getName() ?></strong>
+	<p>Apellido: <strong><?= $taker->getLastName() ?></strong>
+	<p>CUIT: <strong><?= $taker->getCuit() ?></strong>
+	<p>DNI: <strong><?= $taker->getDni() ?></strong>
+	<p>Fecha de nacimiento: <strong><?= $taker->getBirth()->format('d/m/Y') ?></strong>
+	<p>Dirección: <strong><?= $taker->getAddress() ?></strong>
+	<p>Correo electrónico: <a href="mailto:<?= $taker->getEmail() ?>"><?= $taker->getEmail() ?></a>
+	<p>Teléfonos: <strong><?= $taker->getPhones() ?></strong>
+	<p>Situación impositiva: <strong><?= $taker->getSituationAsString() ?></strong>
 </fieldset>

@@ -21,9 +21,9 @@ class TakerRepository extends EntityRepository
 			'address' => 'string',
 			'dni' => 'string',
 			'cuit' => 'string',
-			'birth' => 'dateTime',
+			'birth' => 'date',
 			'phones' => 'string',
-			'condition' => 'int',
+			'situation' => 'int',
 		));
 	}
 }

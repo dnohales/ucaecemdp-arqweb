@@ -1,17 +1,23 @@
 <?php $this->extend('Base:full') ?>
 
-<?php $this->block('title'); ?>
-Agregar nuevo cliente - 
-<?php echo $this->parentBlock();
-$this->endBlock() ?>
+<?php $this->parentBlockPrepending('title', 'Agregar nuevo cliente - '); ?>
 
 <?php $this->block('content') ?>
 <h1>Agregar nuevo cliente</h1>
 
 <form name="addTaker" action="<?= $this->currentUri() ?>" method="post">
-	<?= $this->partial('Taker:_form') ?>
+	<?php if($this->user()->getProducer() === null): ?>
+		<label>Productor</label>
+		<select name="producerId" required>
+			<option value="">Seleccione...</option>
+			<?php foreach($producers as $p): ?>
+				<option value="<?= $p->getId() ?>"><?= $p->getFullName() ?></option>
+			<?php endforeach; ?>
+		</select>
+	<?php endif ?>
+	<?= $this->partial('Taker:_form', array('taker' => $taker)) ?>
     <div class="button-list">
-        <button class="btn btn-success" type="submit">Agregar tomador</button>
+        <button class="btn btn-success" type="submit">Agregar cliente</button>
     </div>
 </form>
 <?php $this->endBlock() ?>

@@ -92,16 +92,28 @@ class Controller extends ApplicationAggregate
 	{
 		$properties = $this->getOrm()->getRepository($entity)->getMappingInformation()->getProperties();
 		foreach($data as $key => $value){
-			if(isset($properties[$key]) && method_exists($entity, "set$key")){
-				$entity->{"set$key"}($properties[$key]->toNative($this->sanitizeBindValue($value)));
+			$type = isset($properties[$key])? $properties[$key]:null;
+			if($type !== null && method_exists($entity, "set$key")){
+				$entity->{"set$key"}($this->sanitizeBindValue($value, $type));
 			}
 		}
 	}
 	
-	private function sanitizeBindValue($value)
+	private function sanitizeBindValue($value, Database\Type\TypeInterface $type)
 	{
 		$value = trim($value);
-		return $value===''? null:$value;
+		
+		if($value === ''){
+			return null;
+		} else {
+			if($type instanceof Database\Type\Date){
+				return \DateTime::createFromFormat('d/m/Y', $value);
+			} else if($type instanceof Database\Type\DateTime){
+				throw new \Exception('No pueden convertir valores de formularios en DateTime');
+			} else {
+				return $type->toNative($value);
+			}
+		}
 	}
 }
 

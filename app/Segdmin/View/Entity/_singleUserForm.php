@@ -1,9 +1,15 @@
-<label>Correo electrónico</label>
-<input value="<?= isset($user)? $user->getEmail():'' ?>" name="user[email]" type="email" required="required" />
-<label>Contraseña</label>
-<input value="" id="password1" name="user[password]" type="password" required="required" />
-<label>Repetir contraseña</label>
-<input value="" id="password2" name="user[passwordRepeat]" type="password" required="required" />
+<div class="form-row">
+	<label>Correo electrónico</label>
+	<input value="<?= isset($user)? $user->getEmail():'' ?>" name="user[email]" type="email" required="required" />
+</div>
+<div class="form-row">
+	<label>Contraseña</label>
+	<input value="" id="password1" name="user[password]" type="password" required="required" />
+</div>
+<div class="form-row">
+	<label>Repetir contraseña</label>
+	<input value="" id="password2" name="user[passwordRepeat]" type="password" required="required" />
+</div>
 <script type="text/javascript">
 	$('#password2').on('focus input', function(){
 		var p1 = $('#password1').val();

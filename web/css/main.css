@@ -62,14 +62,13 @@ input:disabled {
 	min-height: 500px;
 }
 
-fieldset.margined p,
-fieldset.margined label,
-fieldset.margined input {
+fieldset.margined {
 	margin-left: 30px;
+	margin-bottom: 20px;
 }
 
-fieldset.margined {
-	margin-bottom: 20px;
+div.form-row {
+	margin-bottom: 6px;
 }
 
 .entity-table-container header div:first-child {

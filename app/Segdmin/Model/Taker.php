@@ -21,7 +21,7 @@ class Taker extends Entity
 	private $cuit;
 	private $birth;
 	private $phones;
-	private $condition;
+	private $situation;
 	
 	public function getProducerId()
 	{
@@ -31,6 +31,11 @@ class Taker extends Entity
 	public function setProducerId($producerId)
 	{
 		$this->producerId = $producerId;
+	}
+	
+	public function getProducer()
+	{
+		return $this->getOrm()->getRepository('Producer')->find($this->getProducerId());
 	}
 
 	public function getEmail()
@@ -118,7 +123,7 @@ class Taker extends Entity
 		$this->phones = $phones;
 	}
 	
-	static public function getConditionInformation()
+	static public function getSituationInformation()
 	{
 		return array(
 			self::COND_FINALCONSUMER => 'Consumidor final',
@@ -127,14 +132,20 @@ class Taker extends Entity
 		);
 	}
 
-	public function getCondition()
+	public function getSituation()
 	{
-		return $this->condition;
+		return $this->situation;
+	}
+	
+	public function getSituationAsString()
+	{
+		$info = self::getSituationInformation();
+		return $info[$this->getSituation()];
 	}
 
-	public function setCondition($condition)
+	public function setSituation($situation)
 	{
-		$this->condition = $condition;
+		$this->situation = $situation;
 	}
 	
 	public function getRequests()

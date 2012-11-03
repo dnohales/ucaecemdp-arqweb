@@ -2,6 +2,7 @@
 namespace Segdmin\Controller;
 
 use Segdmin\Framework\Controller;
+use Segdmin\Model\Taker;
 
 class TakerController extends Controller
 {
@@ -17,13 +18,35 @@ class TakerController extends Controller
 		}
 		
 		return $this->render('Taker:index', array(
-			'takers' => $takers
+			'takers' => $takers,
 		));
 	}
 	
 	public function addAction()
 	{
-		return $this->render('Taker:add');
+		$taker = new Taker($this->getOrm());
+		
+		$producer = $this->getUser()->getProducer();
+		if($producer !== null){
+			$producers = array();
+		} else {
+			$producers = $this->getOrm()->getRepository('Producer')->findAll('lastName, name ASC');
+		}
+		
+		if($this->getRequest()->isPost()){
+			$post = $this->getRequest()->post();
+			
+			$this->bindIntoEntity($taker, $post);
+			$this->getOrm()->save($taker);
+			
+			$this->getSession()->setFlash('success', 'Se añadió el cliente correctamente');
+			return $this->redirectByRoute('taker_index');
+		}
+		
+		return $this->render('Taker:add', array(
+			'taker' => $taker,
+			'producers' => $producers
+		));
 	}
     
     public function removeAction()
@@ -31,9 +54,20 @@ class TakerController extends Controller
 		return $this->render('Taker:remove');
 	}
     
-    public function editAction()
+    public function detailAction($id)
 	{
-		return $this->render('Taker:edit');
+		$taker = $this->findEntity('Taker', $id);
+		
+		if($this->getRequest()->isPost()){
+			$this->bindIntoEntity($taker, $this->getRequest()->post());
+			$this->getOrm()->save($taker);
+			$this->getSession()->setFlash('success', 'Se han guardado los cambios correctamente');
+			return $this->reloadCurrentUri();
+		}
+		
+		return $this->render('Taker:detail', array(
+			'taker' => $taker
+		));
 	}
 }
 ?>

@@ -1,7 +1,7 @@
 <?php $this->extend('Base:full') ?>
 
 <?php $this->block('content') ?>
-<h1>Añadiendo compañía</h1>
+<h1>Añadiendo productor</h1>
 
 <form id="form" action="<?= $this->currentUri() ?>" method="post">
 	<?= $this->partial('Producer:_formAdd', array('producer' => $producer)) ?>
