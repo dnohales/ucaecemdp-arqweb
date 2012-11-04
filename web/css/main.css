@@ -6,6 +6,14 @@ h1 {
 	margin-bottom: 21px;
 }
 
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
 input:invalid {
 	border-color: darkred;
 }
@@ -80,6 +88,14 @@ div.form-row {
 	margin-bottom: 6px;
 }
 
+.entity-show-data {
+	margin-top: 20px;
+}
+
+.entity-formdelete {
+	margin-bottom: 0;
+}
+
 .entity-table-container header div:first-child {
 	float: left;
 }
@@ -116,6 +132,7 @@ div.form-row {
 	margin-left: 10px;
 }
 
+
 /*.pager a {
 	border-radius: 7px;
 	color: #555;
@@ -125,3 +142,15 @@ div.form-row {
 .pager a:hover, .pager a.pagedisplay {
 	color: #333;
 }*/
+
+.with-last-button tr td:last-child > * {
+	visibility: hidden;
+}
+
+.with-last-button thead tr th:last-child {
+	visibility: hidden;
+}
+
+.with-last-button tr:hover td:last-child > * {
+	visibility: visible;
+}

@@ -1,4 +1,4 @@
-<table class="table tablesorter">
+<table class="table tablesorter<?= isset($class)? " $class":'' ?>">
 	<thead>
 	<tr>
 		<th>#</th>

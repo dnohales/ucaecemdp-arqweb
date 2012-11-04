@@ -8,7 +8,11 @@
 
 <div class="entity-detail">
 	<div class="entity-show">
-		<div class="pull-right">
+		<div class="left">
+			<?php $this->block('left_buttons') ?>
+			<?php $this->endBlock() ?>
+		</div>
+		<div class="right">
 			<?php if($canRemove): ?>
 			<form method="post" action="<?= $this->url($removeRoute, array('id' => $entity->getId())) ?>" class="form-inline entity-formdelete">
 			<?php endif; ?>

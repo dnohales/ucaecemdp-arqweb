@@ -24,12 +24,23 @@
 	<p>Porcentaje de descuento: <strong><?= $company->getDiscount() ?>%</strong>
 </fieldset>
 <legend>Coberturas</legend>
-<?= $this->partial('Entity:_table', array(
-	'entities' => $company->getCoverages(),
-	'fields' => array(
+<?php
+	$coverageTableFields = array(
 		'Descripción' => 'description',
 		'Tasa' => function($coverage){
 			return $coverage->getRate().'%';
 		},
-	)
+	);
+		
+	if($this->isGranted('request_add_by_coverage')){
+		$view = $this;
+		$coverageTableFields[''] = function($coverage) use($view){
+			return '<a class="btn pull-right" href="'.$view->url('request_add_by_coverage', array('coverageId' => $coverage->getId())).'"><i class="icon icon-plus"></i> Añadir operación</a>';
+		};
+	}
+?>
+<?= $this->partial('Entity:_table', array(
+	'class' => 'with-last-button',
+	'entities' => $company->getCoverages(),
+	'fields' => $coverageTableFields
 )); ?>

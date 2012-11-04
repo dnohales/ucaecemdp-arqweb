@@ -207,6 +207,13 @@ return array
 			Roles::ADMIN, Roles::PRODUCER,
 		)
 	),
+	'request_add_by_coverage' => array(
+		'path' => '/solicitud/cobertura/{coverageId}/alta',
+		'controller' => 'Request:addByCoverage',
+		'roles' => array(
+			Roles::ADMIN, Roles::PRODUCER,
+		)
+	),
 	'request_remove' => array(
 		'path' => '/solicitud/{id}/baja',
 		'controller' => 'Request:remove',

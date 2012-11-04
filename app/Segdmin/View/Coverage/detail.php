@@ -4,7 +4,7 @@
 
 <?php $this->block('content') ?>
 <h1>Detalles de cobertura</h1>
-<?= $this->partial('Entity:_genericDetail', array(
+<?= $this->partial('Coverage:_detail', array(
 	'entity' => $coverage,
 	'editView' => $this->partial('Coverage:_form', array('coverage' => $coverage)),
 	'showView' => $this->partial('Coverage:_show', array('coverage' => $coverage)),
