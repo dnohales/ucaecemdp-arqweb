@@ -74,20 +74,26 @@ class CoverageController extends Controller
 		$this->getSession()->setFlash('success', 'La cobertura y sus peticiones asociadas se han eliminado correctamente');
 		return $this->redirectByRoute('coverage_index');
 	}
+	
+	public function updateAction($id)
+	{
+		$coverage = $this->findCoverage($id);
+		
+		$this->bindIntoEntity($coverage, $this->getRequest()->post(), array(
+			'description',
+			'rate'
+		));
+		$this->getOrm()->save($coverage);
+		$this->getSession()->setFlash('success', 'Se han guardado los cambios correctamente');
+		
+		return $this->redirectByRoute('coverage_detail', array(
+			'id' => $coverage->getId()
+		));
+	}
     
     public function detailAction($id)
 	{
 		$coverage = $this->findCoverage($id);
-		
-		if($this->getRequest()->isPost()){
-			$this->bindIntoEntity($coverage, $this->getRequest()->post(), array(
-				'description',
-				'rate'
-			));
-			$this->getOrm()->save($coverage);
-			$this->getSession()->setFlash('success', 'Se han guardado los cambios correctamente');
-			return $this->reloadCurrentUri();
-		}
 		
 		return $this->render('Coverage:detail', array(
 			'coverage' => $coverage

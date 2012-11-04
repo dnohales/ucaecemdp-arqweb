@@ -48,17 +48,24 @@ class CompanyController extends Controller
 		$this->getSession()->setFlash('success', 'La compañía se ha eliminado correctamente');
 		return $this->redirectByRoute('company_index');
 	}
+	
+	public function updateAction($id)
+	{
+		$company = $this->findEntity('Company', $id);
+		
+		$this->bindIntoEntity($company, $this->getRequest()->post());
+		$this->getOrm()->save($company);
+		
+		$this->getSession()->setFlash('success', 'Se han guardado los cambios correctamente');
+		
+		return $this->redirectByRoute('company_detail', array(
+			'id' => $company->getId()
+		));
+	}
     
     public function detailAction($id)
 	{
 		$company = $this->findEntity('Company', $id);
-		
-		if($this->getRequest()->isPost()){
-			$this->bindIntoEntity($company, $this->getRequest()->post());
-			$this->getOrm()->save($company);
-			$this->getSession()->setFlash('success', 'Se han guardado los cambios correctamente');
-			return $this->reloadCurrentUri();
-		}
 		
 		return $this->render('Company:detail', array(
 			'company' => $company

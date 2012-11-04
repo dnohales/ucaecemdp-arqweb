@@ -48,17 +48,23 @@ class ProducerController extends Controller
 		$this->getSession()->setFlash('success', 'El productor se ha eliminado correctamente');
 		return $this->redirectByRoute('producer_index');
 	}
+	
+	public function updateAction($id)
+	{
+		$producer = $this->findEntity('Producer', $id);
+		
+		$this->bindIntoEntity($producer, $this->getRequest()->post());
+		$this->getOrm()->save($producer);
+		$this->getSession()->setFlash('success', 'Se han guardado los cambios correctamente');
+		
+		return $this->redirectByRoute('producer_detail', array(
+			'id' => $producer->getId()
+		));
+	}
     
     public function detailAction($id)
 	{
 		$producer = $this->findEntity('Producer', $id);
-		
-		if($this->getRequest()->isPost()){
-			$this->bindIntoEntity($producer, $this->getRequest()->post());
-			$this->getOrm()->save($producer);
-			$this->getSession()->setFlash('success', 'Se han guardado los cambios correctamente');
-			return $this->reloadCurrentUri();
-		}
 		
 		return $this->render('Producer:detail', array(
 			'producer' => $producer

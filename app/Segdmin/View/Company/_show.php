@@ -3,7 +3,7 @@
 	Usuario: <strong><?= $company->getUser()->getEmail() ?></strong>
 	&nbsp;<a href="#" title="Editar usuario" class="btn"><i class="icon icon-pencil"></i></a>
 <?php else: ?>
-	Usuario: <em>Está compañía no posee un usuario, solo un administrador puede gestionarla.</em>
+	Usuario: <em>Esta compañía no posee un usuario, solo un administrador puede gestionarla.</em>
 <?php endif; ?>
 </p>
 <legend>Datos principales</legend>

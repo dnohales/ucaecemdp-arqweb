@@ -178,7 +178,7 @@ return array
 	),
 	'producer_update' => array(
 		'path' => '/productor/{id}/modificar',
-		'controller' => 'Producer:remove',
+		'controller' => 'Producer:update',
 		'allowedMethods' => array('POST'),
 		'roles' => array(
 			Roles::ADMIN,

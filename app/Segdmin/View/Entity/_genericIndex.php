@@ -1,3 +1,7 @@
+<?php if(isset($title)): //TODO: BC El título no tendría que ir ?>
+	<h1><?= $title ?></h1>
+<?php endif ?>
+
 <div class="entity-table-container">
 	<header>
 		<div>

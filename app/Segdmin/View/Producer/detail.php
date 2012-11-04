@@ -6,6 +6,7 @@
 	'title' => 'Detalles del productor',
 	'editView' => $this->partial('Producer:_form', array('producer' => $producer)),
 	'showView' => $this->partial('Producer:_show', array('producer' => $producer)),
-	'removeRoute' => 'producer_remove'
+	'removeRoute' => 'producer_remove',
+	'updateRoute' => 'producer_update',
 )) ?>
 <?php $this->endBlock() ?>

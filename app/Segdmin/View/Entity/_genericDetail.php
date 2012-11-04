@@ -1,8 +1,8 @@
 <?php $readOnly = isset($readOnly)? $readOnly:false; ?>
-<?php $canEdit = isset($canEdit)? $canEdit && !$readOnly:true; ?>
+<?php $canEdit = isset($canEdit)? $canEdit && !$readOnly:$this->isGranted($updateRoute); ?>
 <?php $canRemove = isset($canRemove)? $canRemove && !$readOnly:$this->isGranted($removeRoute); ?>
 
-<?php if(isset($title)): ?>
+<?php if(isset($title)): //TODO: BC El título no tendría que ir ?>
 	<h1><?= $title ?></h1>
 <?php endif ?>
 
@@ -32,7 +32,7 @@
 			<button type="button" class="btn entity-canceledit">Cancelar</button>
 		</div>
 		<div class="clearfix"></div>
-		<form action="<?= $this->currentUri() ?>" method="post">
+		<form action="<?= $this->url($updateRoute, array('id' => $entity->getId())) ?>" method="post">
 			<?= $editView ?>
 			<div class="button-list">
 				<button type="button" class="btn entity-canceledit">Cancelar</button>

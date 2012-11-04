@@ -6,6 +6,7 @@
 	'title' => 'Detalles de la compañía',
 	'editView' => $this->partial('Company:_form', array('company' => $company)),
 	'showView' => $this->partial('Company:_show', array('company' => $company)),
-	'removeRoute' => 'company_remove'
+	'removeRoute' => 'company_remove',
+	'updateRoute' => 'company_update',
 )) ?>
 <?php $this->endBlock() ?>
