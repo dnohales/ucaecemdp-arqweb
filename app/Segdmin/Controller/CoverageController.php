@@ -7,6 +7,15 @@ use Segdmin\Model\Coverage;
 
 class CoverageController extends Controller
 {
+	public function findCoverage($id)
+	{
+		$coverage = $this->findEntity('Coverage', $id);
+		if($this->getUser()->getCompany() !== null && $this->getUser()->getCompany() !== $coverage->getCompany()){
+			throw $this->createForbbidenException();
+		}
+		return $coverage;
+	}
+	
 	public function indexAction()
 	{
 		$tableFields = array(
@@ -40,10 +49,13 @@ class CoverageController extends Controller
 			$post = $this->getRequest()->post();
 			
 			$this->bindIntoEntity($coverage, $post);
+			if($this->getUser()->getCompany() !== null){
+				$coverage->setCompanyId($this->getUser()->getCompany()->getId());
+			}
 			$this->getOrm()->save($coverage);
 			
 			$this->getSession()->setFlash('success', 'Se añadió la cobertura correctamente');
-			return $this->redirectByRoute('company_index');
+			return $this->redirectByRoute('coverage_index');
 		}
 		
 		return $this->render('Coverage:add', array(
@@ -56,20 +68,22 @@ class CoverageController extends Controller
 	
 	public function removeAction($id)
 	{
-		$company = $this->findEntity('Company', $id);
+		$coverage = $this->findCoverage($id);
 		
-		$this->getOrm()->remove($company->getUser());
-		$this->getOrm()->remove($company);
-		$this->getSession()->setFlash('success', 'La compañía se ha eliminado correctamente');
-		return $this->redirectByRoute('company_index');
+		$this->getOrm()->remove($coverage);
+		$this->getSession()->setFlash('success', 'La cobertura y sus peticiones asociadas se han eliminado correctamente');
+		return $this->redirectByRoute('coverage_index');
 	}
     
     public function detailAction($id)
 	{
-		$coverage = $this->findEntity('Coverage', $id);
+		$coverage = $this->findCoverage($id);
 		
 		if($this->getRequest()->isPost()){
-			$this->bindIntoEntity($coverage, $this->getRequest()->post());
+			$this->bindIntoEntity($coverage, $this->getRequest()->post(), array(
+				'description',
+				'rate'
+			));
 			$this->getOrm()->save($coverage);
 			$this->getSession()->setFlash('success', 'Se han guardado los cambios correctamente');
 			return $this->reloadCurrentUri();

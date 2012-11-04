@@ -6,8 +6,8 @@
 <h1>Agregar nueva cobertura</h1>
 
 <form action="<?= $this->currentUri() ?>" method="post">
-	<label>Compañía</label>
 	<?php if($this->user()->getCompany() === null): ?>
+	<label>Compañía</label>
 	<select name="companyId" required>
 		<option value="">Seleccione...</option>
 		<?php foreach($companies as $c): ?>
