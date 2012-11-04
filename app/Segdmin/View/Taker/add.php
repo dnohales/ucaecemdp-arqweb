@@ -11,7 +11,7 @@
 		<select name="producerId" required>
 			<option value="">Seleccione...</option>
 			<?php foreach($producers as $p): ?>
-				<option value="<?= $p->getId() ?>"><?= $p->getFullName() ?></option>
+				<option value="<?= $p->getId() ?>"><?= $p->getId().': '.$p->getFullName() ?></option>
 			<?php endforeach; ?>
 		</select>
 	<?php endif ?>
