@@ -49,7 +49,7 @@ class Controller extends ApplicationAggregate
 		return $this->redirect($this->generateUrl($routeName, $params, $absolute));
 	}
 	
-	public function reloadCurrentUri($absolute)
+	public function reloadCurrentUri($absolute = false)
 	{
 		return $this->redirect($this->getRequest()->absolutize($this->getRequest()->getUri(), $absolute));
 	}
@@ -88,12 +88,14 @@ class Controller extends ApplicationAggregate
 		return $this->getSession()->getUser();
 	}
 	
-	public function bindIntoEntity($entity, $data)
+	public function bindIntoEntity($entity, $data, array $onlyBind = null)
 	{
 		$properties = $this->getOrm()->getRepository($entity)->getMappingInformation()->getProperties();
 		foreach($data as $key => $value){
 			$type = isset($properties[$key])? $properties[$key]:null;
-			if($type !== null && method_exists($entity, "set$key")){
+			if($type !== null && !($type instanceof Database\Type\Id) &&
+			   ($onlyBind === null || in_array($key, $onlyBind, true)) &&
+			   method_exists($entity, "set$key")){
 				$entity->{"set$key"}($this->sanitizeBindValue($value, $type));
 			}
 		}
