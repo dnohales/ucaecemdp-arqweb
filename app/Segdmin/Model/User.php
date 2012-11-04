@@ -68,11 +68,11 @@ class User extends UserEntity
 	
 	private function getRelatedRole()
 	{
-		if($this->adminId === null){
+		if($this->adminId !== null){
 			return Roles::ADMIN;
-		} else if($this->producerId === null){
+		} else if($this->producerId !== null){
 			return Roles::PRODUCER;
-		} else if($this->companyId === null) {
+		} else if($this->companyId !== null) {
 			return Roles::COMPANY;
 		} else {
 			return null;
@@ -87,11 +87,11 @@ class User extends UserEntity
 			case Roles::ADMIN:
 				$this->relatedEntity = $this->orm->find('Admin', $this->adminId);
 				break;
-			case Roles::ADMIN:
-				$this->relatedEntity = $this->orm->find('Producer', $this->adminId);
+			case Roles::PRODUCER:
+				$this->relatedEntity = $this->orm->find('Producer', $this->producerId);
 				break;
-			case Roles::ADMIN:
-				$this->relatedEntity = $this->orm->find('Company', $this->adminId);
+			case Roles::COMPANY:
+				$this->relatedEntity = $this->orm->find('Company', $this->companyId);
 				break;
 			default:
 				$this->relatedEntity = null;
