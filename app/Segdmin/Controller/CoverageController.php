@@ -73,6 +73,7 @@ class CoverageController extends Controller
 		$coverage = $this->findCoverage($id);
 		
 		$this->getOrm()->remove($coverage);
+		
 		$this->getSession()->setFlash('success', 'La cobertura y sus peticiones asociadas se han eliminado correctamente');
 		return $this->redirectByRoute('coverage_index');
 	}
