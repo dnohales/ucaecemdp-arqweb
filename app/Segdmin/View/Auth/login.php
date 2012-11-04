@@ -16,7 +16,7 @@
 		</div>
 	<?php endif; ?>
 	<form method="post" action="<?php echo $this->currentUri(true) ?>">
-		<input class="fullwidth" value="<?= $lastEmail ?>" name="email" type="text" placeholder="Correo electrónico" />
+		<input autofocus class="fullwidth" value="<?= $lastEmail ?>" name="email" type="text" placeholder="Correo electrónico" />
 		<input class="fullwidth" name="password" type="password" placeholder="Contraseña" />
 		<div class="login-buttons">
 			<div>
