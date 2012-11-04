@@ -76,11 +76,3 @@ $(function(){
 		});
 	});
 });
-
-function filterTable()
-{
-	var $table = $('.tablesorter');
-	$table.find('tbody').html('');
-	/*console.log($table.get(0).tBodies[0]);
-	$.tablesorter.clearTableBody($table.get(0));*/
-}
