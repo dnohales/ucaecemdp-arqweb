@@ -25,10 +25,11 @@
 </fieldset>
 <legend>Coberturas</legend>
 <?= $this->partial('Entity:_table', array(
-	'detailRoute' => 'coverage_detail',
 	'entities' => $company->getCoverages(),
 	'fields' => array(
 		'Descripción' => 'description',
-		'Tasa' => 'rate',
+		'Tasa' => function($coverage){
+			return $coverage->getRate().'%';
+		},
 	)
 )); ?>

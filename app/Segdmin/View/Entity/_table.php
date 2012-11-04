@@ -23,7 +23,7 @@
 						$p = $e->{"get$p"}();
 					}
 					?>
-					<?php if($n == 0): ?>
+					<?php if($n == 0 && isset($detailRoute)): ?>
 						<a href="<?= $this->url($detailRoute, array('id' => $e->getId())) ?>"><?= $p ?></a>
 					<?php else: ?>
 						<?= $p ?>

@@ -20,7 +20,9 @@ class CoverageController extends Controller
 	{
 		$tableFields = array(
 			'Descripción' => 'description',
-			'Tasa' => 'rate',
+			'Tasa' => function($coverage){
+				return $coverage->getRate().'%';
+			},
 		);
 		
 		if($this->getUser()->getCompany() !== null){
