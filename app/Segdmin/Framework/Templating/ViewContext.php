@@ -87,6 +87,11 @@ class ViewContext
 		return $this->app()->getSession()->getUser();
 	}
 	
+	public function isGranted($routeName)
+	{
+		return $this->app()->getRouter()->getRoute($routeName)->isUserGranted($this->user());
+	}
+	
 	public function currentUri($absolute = false)
 	{
 		return $this->request()->absolutize($this->request()->getUri(), $absolute);
