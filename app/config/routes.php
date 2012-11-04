@@ -148,8 +148,15 @@ return array
             Roles::ADMIN, Roles::PRODUCER,
         )
     ),
+	'request_index' => array(
+        'path' => '/solicitudes',
+        'controller' => 'Request:index',
+        'roles' => array(
+            Roles::ADMIN, Roles::PRODUCER, Roles::COMPANY
+        )
+    ),
     'request_add' => array(
-        'path' => '/solicitar/alta',
+        'path' => '/solicitud/alta',
         'controller' => 'Request:add',
         'roles' => array(
             Roles::ADMIN, Roles::PRODUCER,
