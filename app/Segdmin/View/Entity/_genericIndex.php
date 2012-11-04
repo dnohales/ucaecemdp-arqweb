@@ -13,7 +13,9 @@
 			</form>
 		</div>
 		<div>
+		<?php if($this->isGranted($addRoute)): ?>
 			<a href="<?= $this->url($addRoute) ?>" class="btn btn-success"><i class="icon-plus-sign icon-white"></i> Añadir</a>
+		<?php endif; ?>
 		</div>
 	</header>
 	<div class="clearfix"></div>
