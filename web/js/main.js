@@ -2,11 +2,12 @@ $(function(){
 	/*
 	 * Inicialización de valores personalizados en las validaciones de formularios
 	 */
-	$('input[data-custom-validity], select[data-custom-validity]').bind('invalid', function(e){
-		if(!e.target.validity.valid){
+	$('input[data-custom-validity], select[data-custom-validity]').on('input', function(e){
+		e.target.setCustomValidity(null);
+		if(!e.target.checkValidity()){
 			e.target.setCustomValidity($(e.target).attr('data-custom-validity'));
 		} else {
-			e.target.setCustomValidity('');
+			e.target.setCustomValidity(null);
 		}
 	});
 	
