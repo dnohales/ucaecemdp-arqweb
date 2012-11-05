@@ -80,10 +80,10 @@ CREATE TABLE IF NOT EXISTS `producer` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `request`
+-- Estructura de tabla para la tabla `operation`
 --
 
-CREATE TABLE IF NOT EXISTS `request` (
+CREATE TABLE IF NOT EXISTS `operation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `takerId` int(11) NOT NULL,
   `coverageId` int(11) NOT NULL,
@@ -158,11 +158,11 @@ ALTER TABLE `coverage`
   ADD CONSTRAINT `coverage_ibfk_1` FOREIGN KEY (`companyId`) REFERENCES `company` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `request`
+-- Filtros para la tabla `operation`
 --
-ALTER TABLE `request`
-  ADD CONSTRAINT `request_ibfk_1` FOREIGN KEY (`takerId`) REFERENCES `taker` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `request_ibfk_2` FOREIGN KEY (`coverageId`) REFERENCES `coverage` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `operation`
+  ADD CONSTRAINT `operation_ibfk_1` FOREIGN KEY (`takerId`) REFERENCES `taker` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `operation_ibfk_2` FOREIGN KEY (`coverageId`) REFERENCES `coverage` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `taker`

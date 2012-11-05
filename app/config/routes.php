@@ -193,45 +193,52 @@ return array
 	),
 	
 	//Administración de operaciones
-	'request_index' => array(
+	'operation_index' => array(
 		'path' => '/solicitudes',
-		'controller' => 'Request:index',
+		'controller' => 'Operation:index',
 		'roles' => array(
 			Roles::ADMIN, Roles::PRODUCER, Roles::COMPANY
 		)
 	),
-	'request_add' => array(
+	'operation_add' => array(
 		'path' => '/solicitud/alta',
-		'controller' => 'Request:add',
+		'controller' => 'Operation:add',
 		'roles' => array(
 			Roles::ADMIN, Roles::PRODUCER,
 		)
 	),
-	'request_add_by_coverage' => array(
+	'operation_add_by_coverage' => array(
 		'path' => '/solicitud/cobertura/{coverageId}/alta',
-		'controller' => 'Request:addByCoverage',
+		'controller' => 'Operation:addByCoverage',
 		'roles' => array(
 			Roles::ADMIN, Roles::PRODUCER,
 		)
 	),
-	'request_remove' => array(
+	'operation_company_info' => array(
+		'path' => '/solicitud/compania/{id}/informacion',
+		'controller' => 'Operation:getCompanyInfo',
+		'roles' => array(
+			Roles::ADMIN, Roles::PRODUCER,
+		)
+	),
+	'operation_remove' => array(
 		'path' => '/solicitud/{id}/baja',
-		'controller' => 'Request:remove',
+		'controller' => 'Operation:remove',
 		'allowedMethods' => array('POST'),
 		'roles' => array(
 			Roles::ADMIN, Roles::PRODUCER,
 		)
 	),
-	'request_detail' => array(
+	'operation_detail' => array(
 		'path' => '/solicitud/{id}/detalle',
-		'controller' => 'Request:detail',
+		'controller' => 'Operation:detail',
 		'roles' => array(
 			Roles::ADMIN, Roles::PRODUCER
 		)
 	),
-	'answerrequest' => array(
+	'answeroperation' => array(
 		'path' => '/solicitud/{id}/responder',
-		'controller' => 'Request:answer',
+		'controller' => 'Operation:answer',
 		'roles' => array(
 			Roles::ADMIN, Roles::COMPANY
 		)

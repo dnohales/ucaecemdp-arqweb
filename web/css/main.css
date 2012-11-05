@@ -14,11 +14,11 @@ h1 {
 	float: right;
 }
 
-input:invalid {
+input:invalid, select:invalid, textarea:invalid {
 	border-color: darkred;
 }
 
-input:disabled {
+input:disabled, textarea:disabled, select:disabled {
 	background-color: #EEE !important;
 	color: gray;
 }

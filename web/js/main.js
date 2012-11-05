@@ -76,4 +76,11 @@ $(function(){
 			show.fadeIn('fast');
 		});
 	});
+	
+	/*
+	 * Callback para notificar un error de Ajax
+	 */
+	$(document.body).ajaxError(function(){
+		alert('Ha ocurrido un error, si nota que esto continúa, por favor, recargue la página.');
+	});
 });

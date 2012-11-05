@@ -18,6 +18,12 @@
 			<script type="text/javascript" src="<?= $this->asset('js/jquery.tablesorter.pager.min.js') ?>"></script>
 			<script type="text/javascript" src="<?= $this->asset('js/jqModal.js') ?>"></script>
 			<script type="text/javascript" src="<?= $this->asset('js/main.js') ?>"></script>
+			<script type="text/javascript">
+				Globals = {};
+				Globals.routes = {
+					operation_company_info: '<?= $this->url('operation_company_info', array('id' => '{id}')) ?>'
+				}
+			</script>
 		<?php $this->endBlock() ?>
 	</head>
 	<body>

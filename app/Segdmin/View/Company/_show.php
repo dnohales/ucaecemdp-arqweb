@@ -32,10 +32,10 @@
 		},
 	);
 		
-	if($this->isGranted('request_add_by_coverage')){
+	if($this->isGranted('operation_add_by_coverage')){
 		$view = $this;
 		$coverageTableFields[''] = function($coverage) use($view){
-			return '<a class="btn pull-right" href="'.$view->url('request_add_by_coverage', array('coverageId' => $coverage->getId())).'"><i class="icon icon-plus"></i> Añadir operación</a>';
+			return '<a class="btn pull-right" href="'.$view->url('operation_add_by_coverage', array('coverageId' => $coverage->getId())).'"><i class="icon icon-plus"></i> Añadir operación</a>';
 		};
 	}
 ?>

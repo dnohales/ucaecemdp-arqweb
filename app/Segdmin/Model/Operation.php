@@ -6,7 +6,7 @@ namespace Segdmin\Model;
  *
  * @author eagleoneraptor
  */
-class Request extends Entity
+class Operation extends Entity
 {
 	const STATE_PENDING  = 2;
 	const STATE_ACCEPTED = 1;
@@ -30,6 +30,11 @@ class Request extends Entity
 	{
 		$this->takerId = $takerId;
 	}
+	
+	public function getTaker()
+	{
+		return $this->getOrm()->find('Taker', $this->getTakerId());
+	}
 
 	public function getCoverageId()
 	{
@@ -39,6 +44,11 @@ class Request extends Entity
 	public function setCoverageId($coverageId)
 	{
 		$this->coverageId = $coverageId;
+	}
+	
+	public function getCoverage()
+	{
+		return $this->getOrm()->find('Coverage', $this->getCoverageId());
 	}
 
 	public function getData()

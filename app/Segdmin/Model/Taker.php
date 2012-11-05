@@ -148,9 +148,9 @@ class Taker extends Entity
 		$this->situation = $situation;
 	}
 	
-	public function getRequests()
+	public function getOperations()
 	{
-		return $this->getOrm()->getRepository('Request')->findAllBy(array(
+		return $this->getOrm()->getRepository('Operation')->findAllBy(array(
 			'takerId' => $this->getId()
 		));
 	}

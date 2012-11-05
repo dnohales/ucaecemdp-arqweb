@@ -4,15 +4,15 @@ namespace Segdmin\Repository;
 use Segdmin\Framework\Database\MappingInformation;
 
 /**
- * Description of RequestRepository
+ * Description of OperationRepository
  *
  * @author eagleoneraptor
  */
-class RequestRepository extends EntityRepository
+class OperationRepository extends EntityRepository
 {
 	protected function createMappingInformation()
 	{
-		return new MappingInformation('request', array(
+		return new MappingInformation('operation', array(
 			'id' => 'id',
 			'takerId' => 'int',
 			'coverageId' => 'int',

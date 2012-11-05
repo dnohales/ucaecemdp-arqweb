@@ -47,7 +47,7 @@ coverage
   description
   rate
 
-request
+operation
   id
   id_tomador
   id_cobertura
