@@ -37,6 +37,12 @@ input:disabled, textarea:disabled, select:disabled {
 	background-color: #025A86;
 	border-bottom: solid 1px #025A86;
 	color: lightgrey;
+	padding: 5px 0;
+}
+
+#header_text {
+	font-size: 16pt;
+    font-weight: bold;
 }
 
 #menu {

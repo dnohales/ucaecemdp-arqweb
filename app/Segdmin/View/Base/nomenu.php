@@ -5,7 +5,7 @@
 	<div id="wrapper">
 		<div id="header">
 			<div class="container">
-				Cosas del header
+				<span id="header_text">Segdmin</span> - Diseñamos los encabezados mas feos
 			</div>
 		</div>
 		<div class="container">
