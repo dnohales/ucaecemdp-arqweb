@@ -110,6 +110,11 @@ class FormField
 		}
 	}
 	
+	public function render()
+	{
+		return $this->getType()->render($this);
+	}
+	
 	public function isValid()
 	{
 		return count($this->errors) > 0;
