@@ -124,7 +124,37 @@ class Operation extends Entity
 	
 	public function getTotalCost()
 	{
+		if($this->getCoverage() === null || $this->getTaker() === null){
+			throw new \Exception('La operación tiene campos necesarios, vacíos');
+		}
 		
+		$SA = $this->getInsured();
+		$T = $this->getCoverage()->getRate();
+		$RC = $this->getCoverage()->getCompany()->getLiability();
+		$D = $this->getComission();
+		$SIT = $this->getTaker()->getTaxBySituation($this->getCoverage()->getCompany());
+		
+		if(!$SA || !$T || !$RC || !$D || !$SIT){
+			throw new \Exception('La operación tiene campos necesarios, vacíos');
+		}
+		
+		$result = ($SA * $T / 100 + $RC) * ( (100 - $D) / 100) * ( (100 + $SIT) / 100);
+		return (float)number_format($result, 2, '.', '');
+	}
+	
+	public function isTotalCostCalculable()
+	{
+		try{
+			$this->getTotalCost();
+			return true;
+		} catch(\Exception $e){
+			return false;
+		}
+	}
+	
+	public function isValidTotalCost()
+	{
+		return $this->isTotalCostCalculable() && $this->getTotalCost() > 0;
 	}
 
 }

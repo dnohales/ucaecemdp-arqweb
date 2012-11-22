@@ -7,6 +7,11 @@ use Segdmin\Model\Operation;
 
 class OperationController extends Controller
 {
+	public function indexAction()
+	{
+		return $this->render('Base:full');
+	}
+	
 	public function addByCoverageAction($coverageId)
 	{
 		$coverage = $this->findEntity('Coverage', $coverageId);
@@ -22,6 +27,14 @@ class OperationController extends Controller
 	
 	public function doAdd(Operation $operation = null)
 	{
+		if($this->getRequest()->isPost()){
+			$this->bindIntoEntity($operation, $this->getRequest()->post());
+			$this->getOrm()->save($operation);
+			
+			$this->getSession()->setFlash('success', 'La operación se realizó correctamente y ha pasado al proceso de verificación.');
+			return $this->redirectByRoute('operation_index');
+		}
+		
 		return $this->render('Operation:add', array(
 			'operation' => $operation
 		));
@@ -44,14 +57,18 @@ class OperationController extends Controller
 		));
 	}
 	
-	public function getOperationTotalCost()
+	public function getOperationTotalCostAction()
 	{
 		$operation = new Operation($this->getOrm());
 		
-		$operation->setCoverageId($this->getRequest()->post()->get('coverageId'));
-		$operation->setComission($this->getRequest()->post()->get('comission'));
+		try {
+			$this->bindIntoEntity($operation, $this->getRequest()->post());
+			$totalCost = $operation->getTotalCost();
+		} catch(\Exception $e) {
+			$totalCost = null;
+		}
 		
-		return json_encode(array('result' => $operation->getTotalCost()));
+		return json_encode(array('result' => $totalCost));
 	}
     
     public function removeAction()

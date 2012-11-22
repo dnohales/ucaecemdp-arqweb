@@ -17,9 +17,9 @@ class CompanyRepository extends EntityRepository
 			'name' => 'string',
 			'address' => 'string',
 			'liability' => 'int',
-			'taxEnd' => 'int',
-			'taxMono' => 'int',
-			'taxResp' => 'int',
+			'taxEnd' => 'float',
+			'taxMono' => 'float',
+			'taxResp' => 'float',
 			'comission' => 'int',
 			'discount' => 'int',
 		));

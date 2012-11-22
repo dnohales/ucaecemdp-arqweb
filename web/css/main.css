@@ -154,3 +154,13 @@ div.form-row {
 .with-last-button tr:hover td:last-child > * {
 	visibility: visible;
 }
+
+.operation-total {
+	font-weight: bold;
+}
+
+.operation-total.error {
+	font-weight: normal;
+	font-style: italic;
+	color: #BF0404;
+}

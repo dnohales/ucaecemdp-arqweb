@@ -70,7 +70,15 @@
 		<input value="<?= $operation->getCoverage() !== null? $operation->getCoverage()->getCompany()->getComission():'' ?>" name="comission" type="text" pattern="[0-9]+(\.[0-9]+)?" data-custom-validity="Debe ingresar un número decimal" required<?= $operation->getCoverage() === null? ' disabled':'' ?> />
 	</div>
 	<div class="form-row">
-		<p>Costo final del seguro: <span class="operation-total">-</span></p>
+		<p>Costo final del seguro:
+		<span class="operation-total error">
+		<?php if($operation->isTotalCostCalculable()): ?>
+			$<?= $operation->getTotalCost() ?>
+		<?php else: ?>
+			Algunos campos no están completos o son incorrectos
+		<?php endif; ?>
+		</span>
+		</p>
 	</div>
 </fieldset>
 <?php $this->endBlock() ?>

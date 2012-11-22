@@ -15,7 +15,7 @@
 		'operation' => $operation
 	)) ?>
 	<div class="button-list">
-		<button type="submit" class="btn btn-success" <?= $operation->getCoverage() === null? ' disabled':'' ?>>Crear operación</button>
+		<button type="submit" class="btn btn-success" <?= ($operation->getCoverage() === null || !$operation->isValidTotalCost())? ' disabled':'' ?>>Crear operación</button>
 	</div>
 </form>
 <?php $this->endBlock() ?>

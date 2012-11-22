@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.10.1deb1
+-- version 3.4.5
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 03-11-2012 a las 13:19:39
--- Versión del servidor: 5.5.24
--- Versión de PHP: 5.3.10-1ubuntu3.4
+-- Tiempo de generación: 22-11-2012 a las 19:35:01
+-- Versión del servidor: 5.5.16
+-- Versión de PHP: 5.3.8
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -38,9 +38,9 @@ CREATE TABLE IF NOT EXISTS `company` (
   `name` varchar(100) NOT NULL,
   `address` varchar(100) NOT NULL,
   `liability` int(11) NOT NULL COMMENT 'Responsabilidad civil',
-  `taxEnd` int(11) NOT NULL COMMENT 'Impuesto para consumidor final',
-  `taxMono` int(11) NOT NULL COMMENT 'Impuesto para monotributista',
-  `taxResp` int(11) NOT NULL COMMENT 'Impuesto para responsable inscripto',
+  `taxEnd` double NOT NULL COMMENT 'Impuesto para consumidor final',
+  `taxMono` double NOT NULL COMMENT 'Impuesto para monotributista',
+  `taxResp` double NOT NULL COMMENT 'Impuesto para responsable inscripto',
   `comission` int(11) NOT NULL,
   `discount` int(11) NOT NULL,
   PRIMARY KEY (`id`)
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `operation` (
   `model` varchar(100) NOT NULL,
   `insured` int(11) NOT NULL COMMENT 'Suma asegurada',
   `comission` int(11) NOT NULL,
-  `comment` text NOT NULL COMMENT 'Comentario que la compañía agrega cuando evalúa la solicitud',
+  `comment` text COMMENT 'Comentario que la compañía agrega cuando evalúa la solicitud',
   PRIMARY KEY (`id`),
   KEY `coverageId` (`coverageId`),
   KEY `takerId` (`takerId`)

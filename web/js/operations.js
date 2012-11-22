@@ -23,18 +23,24 @@ $(function(){
 	
 	var inputTimeout = null;
 	
-	form.find('[name="coverageId"], [name="comission"]').on('input change', function(){
+	form.on('input change', function(){
 		if(inputTimeout){
 			window.clearTimeout(inputTimeout);
 			inputTimeout = null;
 		}
 		
 		inputTimeout = window.setTimeout(function(){
-			$.post(Globals.routes.operation_total_cost, {
-				'coverageId': form.find('[name="coverageId"]').val(),
-				'comission': form.find('[name="comission"]').val()
-			}, function(data){
-				form.find('.operation-total').html('$'+data.result);
+			$.post(Globals.routes.operation_total_cost, form.serialize(), function(data){
+				if(parseInt(data.result) < 0) {
+					form.find('.operation-total').html('El costo total no puede ser calculado, ¿está seguro que ingreso datos correctos?').addClass('error');
+					form.find('button[type="submit"]').attr('disabled', true);
+				} else if(data.result !== null){
+					form.find('.operation-total').html('$'+data.result).removeClass('error');
+					form.find('button[type="submit"]').attr('disabled', false);
+				} else {
+					form.find('.operation-total').html('Algunos campos no están completos o son incorrectos').addClass('error');
+					form.find('button[type="submit"]').attr('disabled', true);
+				}
 			}, 'json');
 		}, 500);
 	});

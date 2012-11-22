@@ -148,6 +148,21 @@ class Taker extends Entity
 		$this->situation = $situation;
 	}
 	
+	public function getTaxBySituation(Company $company)
+	{
+		switch($this->getSituation())
+		{
+		case self::COND_FINALCONSUMER:
+			return $company->getTaxEnd();
+			
+		case self::COND_MONO:
+			return $company->getTaxMono();
+			
+		case self::COND_REGRESPONSIBLE:
+			return $company->getTaxResp();
+		}
+	}
+	
 	public function getOperations()
 	{
 		return $this->getOrm()->getRepository('Operation')->findAllBy(array(
