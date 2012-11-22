@@ -21,7 +21,8 @@
 			<script type="text/javascript">
 				Globals = {};
 				Globals.routes = {
-					operation_company_info: '<?= $this->url('operation_company_info', array('id' => '{id}')) ?>'
+					operation_company_info: '<?= $this->url('operation_company_info', array('id' => '{id}')) ?>',
+					operation_total_cost: '<?= $this->url('operation_total_cost') ?>'
 				}
 			</script>
 		<?php $this->endBlock() ?>

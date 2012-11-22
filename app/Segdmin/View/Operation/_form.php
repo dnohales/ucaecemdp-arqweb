@@ -69,5 +69,8 @@
 		<label>Porcentaje de disminución de comisión</label>
 		<input value="<?= $operation->getCoverage() !== null? $operation->getCoverage()->getCompany()->getComission():'' ?>" name="comission" type="text" pattern="[0-9]+(\.[0-9]+)?" data-custom-validity="Debe ingresar un número decimal" required<?= $operation->getCoverage() === null? ' disabled':'' ?> />
 	</div>
+	<div class="form-row">
+		<p>Costo final del seguro: <span class="operation-total">-</span></p>
+	</div>
 </fieldset>
 <?php $this->endBlock() ?>

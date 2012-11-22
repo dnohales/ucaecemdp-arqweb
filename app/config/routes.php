@@ -221,6 +221,14 @@ return array
 			Roles::ADMIN, Roles::PRODUCER,
 		)
 	),
+	'operation_total_cost' => array(
+		'path' => '/solicitud/costo_total',
+		'controller' => 'Operation:getOperationTotalCost',
+		'roles' => array(
+			Roles::ADMIN, Roles::PRODUCER,
+		),
+		'allowedMethods' => array('POST'),
+	),
 	'operation_remove' => array(
 		'path' => '/solicitud/{id}/baja',
 		'controller' => 'Operation:remove',
