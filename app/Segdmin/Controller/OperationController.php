@@ -10,22 +10,18 @@ class OperationController extends Controller
 	public function addByCoverageAction($coverageId)
 	{
 		$coverage = $this->findEntity('Coverage', $coverageId);
-		return $this->doAdd($coverage);
+		$operation = new Operation($this->getOrm());
+		$operation->setCoverageId($coverage->getId());
+		return $this->doAdd($operation);
 	}
 	
 	public function addAction()
 	{
-		return $this->doAdd(null);
+		return $this->doAdd(new Operation($this->getOrm()));
 	}
 	
-	public function doAdd(Coverage $coverage = null)
+	public function doAdd(Operation $operation = null)
 	{
-		$operation = new Operation($this->getOrm());
-		
-		if($coverage !== null){
-			$operation->setCoverageId($coverage->getId());
-		}
-		
 		return $this->render('Operation:add', array(
 			'operation' => $operation
 		));
@@ -46,6 +42,16 @@ class OperationController extends Controller
 			),
 			'comission' => $company->getComission()
 		));
+	}
+	
+	public function getOperationTotalCost()
+	{
+		$operation = new Operation($this->getOrm());
+		
+		$operation->setCoverageId($this->getRequest()->post()->get('coverageId'));
+		$operation->setComission($this->getRequest()->post()->get('comission'));
+		
+		return json_encode(array('result' => $operation->getTotalCost()));
 	}
     
     public function removeAction()

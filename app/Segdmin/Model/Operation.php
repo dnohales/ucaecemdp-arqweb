@@ -121,6 +121,11 @@ class Operation extends Entity
 	{
 		$this->accepted = false;
 	}
+	
+	public function getTotalCost()
+	{
+		
+	}
 
 }
 

@@ -30,7 +30,7 @@ class ClassLoader
 		if(!file_exists($file)){
 			throw new \RuntimeException(sprintf('No se puede cargar la clase "%s" ya que no se encontró el archivo "%s"', $class, $file));
 		} else {
-			require $this->findFileByClass($class);
+			require $file;
 			
 			//Se verifica si la clase existe incluso los traits para mantener
 			//compatibilidad con PHP 5.4

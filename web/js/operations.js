@@ -24,6 +24,18 @@ $(function(){
 	var inputTimeout = null;
 	
 	form.find('[name="coverageId"], [name="comission"]').on('input change', function(){
+		if(inputTimeout){
+			window.clearTimeout(inputTimeout);
+			inputTimeout = null;
+		}
 		
+		inputTimeout = window.setTimeout(function(){
+			$.post(Globals.routes.operation_total_cost, {
+				'coverageId': form.find('[name="coverageId"]').val(),
+				'comission': form.find('[name="comission"]').val()
+			}, function(data){
+				form.find('.operation-total').html('$'+data.result);
+			}, 'json');
+		}, 500);
 	});
 });
