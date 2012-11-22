@@ -229,24 +229,17 @@ return array
 		),
 		'allowedMethods' => array('POST'),
 	),
-	'operation_remove' => array(
-		'path' => '/solicitud/{id}/baja',
-		'controller' => 'Operation:remove',
-		'allowedMethods' => array('POST'),
-		'roles' => array(
-			Roles::ADMIN, Roles::PRODUCER,
-		)
-	),
 	'operation_detail' => array(
 		'path' => '/solicitud/{id}/detalle',
 		'controller' => 'Operation:detail',
 		'roles' => array(
-			Roles::ADMIN, Roles::PRODUCER
+			Roles::ADMIN, Roles::PRODUCER, Roles::COMPANY
 		)
 	),
-	'answeroperation' => array(
+	'operation_answer' => array(
 		'path' => '/solicitud/{id}/responder',
 		'controller' => 'Operation:answer',
+		'allowedMethods' => array('POST'),
 		'roles' => array(
 			Roles::ADMIN, Roles::COMPANY
 		)

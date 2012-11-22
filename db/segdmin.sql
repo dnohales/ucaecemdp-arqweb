@@ -93,6 +93,7 @@ CREATE TABLE IF NOT EXISTS `operation` (
   `insured` int(11) NOT NULL COMMENT 'Suma asegurada',
   `comission` int(11) NOT NULL,
   `comment` text COMMENT 'Comentario que la compañía agrega cuando evalúa la solicitud',
+  `creationTime` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `coverageId` (`coverageId`),
   KEY `takerId` (`takerId`)

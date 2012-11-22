@@ -1,3 +1,5 @@
+<?php $tableClass = isset($tableClass)? $tableClass:'' ?>
+
 <?php if(isset($title)): //TODO: BC El título no tendría que ir ?>
 	<h1><?= $title ?></h1>
 <?php endif ?>
@@ -22,6 +24,7 @@
 	<?= $this->partial('Entity:_table', array(
 		'entities' => $entities,
 		'detailRoute' => $detailRoute,
-		'fields' => $fields
+		'fields' => $fields,
+		'class' => $tableClass
 	)) ?>
 </div>

@@ -20,6 +20,12 @@ class Operation extends Entity
 	private $insured;
 	private $comission;
 	private $comment;
+	private $creationTime;
+	
+	protected function init()
+	{
+		$this->creationTime = new \DateTime();
+	}
 	
 	public function getTakerId()
 	{
@@ -99,6 +105,16 @@ class Operation extends Entity
 	public function setComment($comment)
 	{
 		$this->comment = $comment;
+	}
+	
+	public function getCreationTime()
+	{
+		return $this->creationTime;
+	}
+
+	public function setCreationTime($creationTime)
+	{
+		$this->creationTime = $creationTime;
 	}
 	
 	public function getAcceptedState()

@@ -66,7 +66,7 @@ class User extends UserEntity
 		return array($relatedRole ?: Roles::ADMIN, Roles::LOGGEDIN, Roles::ANONYMOUS);
 	}
 	
-	private function getRelatedRole()
+	private function getRelatedRoleOrNull()
 	{
 		if($this->adminId !== null){
 			return Roles::ADMIN;
@@ -79,10 +79,15 @@ class User extends UserEntity
 		}
 	}
 	
+	public function getRelatedRole()
+	{
+		return $this->getRelatedRoleOrNull() ?: Roles::ADMIN;
+	}
+	
 	public function getRelatedEntity()
 	{
 		if($this->relatedEntity === false){
-			switch($this->getRelatedRole())
+			switch($this->getRelatedRoleOrNull())
 			{
 			case Roles::ADMIN:
 				$this->relatedEntity = $this->orm->find('Admin', $this->adminId);

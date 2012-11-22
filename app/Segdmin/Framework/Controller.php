@@ -88,6 +88,11 @@ class Controller extends ApplicationAggregate
 		return $this->getSession()->getUser();
 	}
 	
+	public function isGranted($routeName)
+	{
+		return $this->getApplication()->getRouter()->getRoute($routeName)->isUserGranted($this->getUser());
+	}
+	
 	public function bindIntoEntity($entity, $data, array $onlyBind = null)
 	{
 		$properties = $this->getOrm()->getRepository($entity)->getMappingInformation()->getProperties();

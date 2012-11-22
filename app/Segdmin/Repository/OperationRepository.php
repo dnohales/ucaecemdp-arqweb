@@ -22,6 +22,7 @@ class OperationRepository extends EntityRepository
 			'insured' => 'int',
 			'comission' => 'int',
 			'comment' => 'string',
+			'creationTime' => 'dateTime'
 		));
 	}
 }

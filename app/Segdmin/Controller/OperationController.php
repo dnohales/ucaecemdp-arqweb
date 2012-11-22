@@ -4,12 +4,63 @@ namespace Segdmin\Controller;
 use Segdmin\Framework\Controller;
 use Segdmin\Model\Coverage;
 use Segdmin\Model\Operation;
+use Segdmin\Framework\Security\Roles;
 
 class OperationController extends Controller
 {
 	public function indexAction()
 	{
-		return $this->render('Base:full');
+		switch($this->getUser()->getRelatedRole())
+		{
+		case Roles::COMPANY:
+			$operations = $this->getOrm()->getRepository('Operation')->loadAllByQuery(
+				'SELECT o.id AS id, o.takerId AS takerId, o.accepted AS accepted, o.data AS data, o.model AS model, o.insured AS insured, o.comission AS comission, o.comment AS comment FROM operation AS o INNER JOIN coverage WHERE coverage.companyId = :companyId',
+				array(
+					':companyId' => $this->getUser()->getCompany()
+				)
+			);
+			break;
+		
+		case Roles::PRODUCER:
+			$operations = array();
+			break;
+		
+		case Roles::ADMIN:
+			$operations = $this->getOrm()->getRepository('Operation')->findAll();
+			break;
+		}
+		
+		$tableFields = array(
+			'Cliente' => function($operation){
+				return $operation->getTaker()->getFullName();
+			},
+			'Cobertura' => function($operation) {
+				return $operation->getCoverage()->getDescription();
+			}
+		);
+		
+		if($this->getUser()->getCompany() === null){
+			$tableFields['Compañía'] = function($operation){
+				return $operation->getCoverage()->getCompany()->getName();
+			};
+		}
+		
+		if($this->isGranted('operation_answer')){
+			$controller = $this;
+			$tableFields['Acción'] = function($operation) use($controller){
+				return '<a href="#'.$operation->getId().'" class="operation-answer-btn btn btn-primary"><i></i> Aprobar/Rechazar</a> <a class="btn" href="'.$controller->generateUrl('operation_detail', array('id' => $operation->getId())).'" title="Ver detalles"><i class="icon icon-search"></i></a>';
+			};
+		} else {
+			$controller = $this;
+			$tableFields['Acción'] = function($operation) use($controller){
+				return '<a class="btn" href="'.$controller->generateUrl('operation_detail', array('id' => $operation->getId())).'" title="Ver detalles"><i class="icon icon-search"></i></a>';
+			};
+		}
+		
+		return $this->render('Operation:index', array(
+			'tableFields' => $tableFields,
+			'operations' => $operations
+		));
 	}
 	
 	public function addByCoverageAction($coverageId)
@@ -76,7 +127,7 @@ class OperationController extends Controller
 		return $this->render('Operation:remove');
 	}
     
-    public function editAction()
+    public function detailAction()
 	{
 		return $this->render('Operation:edit');
 	}
@@ -84,6 +135,12 @@ class OperationController extends Controller
     public function answerAction()
 	{
 		return $this->render('Operation:answer');
+	}
+	
+	public function getAnswerDialogContent($id)
+	{
+		$operation = $this->findEntity('Operation', $id);
+		echo 'Y hasta acá llegamos...';
 	}
 }
 ?>
