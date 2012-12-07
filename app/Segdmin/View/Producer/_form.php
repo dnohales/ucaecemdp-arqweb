@@ -7,7 +7,7 @@
 	</div>
 	<div class="form-row">
 		<label>Apellido</label>
-		<input value="<?= $producer->getAddress() ?>" name="lastName" type="text" required />
+		<input value="<?= $producer->getLastName() ?>" name="lastName" type="text" required />
 	</div>
 	<div class="form-row">
 		<label>DNI</label>
