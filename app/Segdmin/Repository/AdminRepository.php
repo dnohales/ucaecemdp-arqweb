@@ -8,7 +8,7 @@ use Segdmin\Framework\Database\MappingInformation;
  *
  * @author eagleoneraptor
  */
-class AdminRepository extends AdminRepository
+class AdminRepository extends EntityRepository
 {
 	protected function createMappingInformation()
 	{

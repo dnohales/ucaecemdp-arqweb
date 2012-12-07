@@ -145,6 +145,11 @@ class User extends UserEntity
 		$this->adminId = null;
 		$this->relatedEntity = false;
 	}
+	
+	public function isSuperUser()
+	{
+		return $this->getId() == 1;
+	}
 
 }
 

@@ -15,7 +15,7 @@
 		<?= $this->partial('Base:_menuItem', array('label' => 'Productores', 'routeName' => 'producer_index')) ?>
 		<?= $this->partial('Base:_menuItem', array('label' => 'Clientes', 'routeName' => 'taker_index')) ?>
 		<?= $this->partial('Base:_menuItem', array('label' => 'Operaciones', 'routeName' => 'operation_index')) ?>
-		<!--<?= $this->partial('Base:_menuItem', array('label' => 'Usuarios', 'routeName' => 'user_index')) ?>-->
+		<?= $this->partial('Base:_menuItem', array('label' => 'Usuarios', 'routeName' => 'user_index')) ?>
 		<li><hr /></li>
 		<!--<li><a href="<?php echo $this->url('profile') ?>">Mi cuenta</a></li>-->
 		<li><a href="<?php echo $this->url('logout') ?>">Cerrar sesión</a></li>

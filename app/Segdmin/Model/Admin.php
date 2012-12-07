@@ -30,6 +30,11 @@ class Admin extends Entity
 	{
 		$this->lastName = $lastName;
 	}
+	
+	public function getFullName()
+	{
+		return $this->getName().' '.$this->getLastName();
+	}
 
 }
 
