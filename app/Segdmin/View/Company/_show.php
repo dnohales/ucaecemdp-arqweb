@@ -8,20 +8,20 @@
 </p>
 <legend>Datos principales</legend>
 <fieldset class="margined">
-	<p>Razón social: <strong><?= $company->getName() ?></strong>
-	<p>Dirección: <strong><?= $company->getAddress() ?></strong>
-	<p>RC (en pesos): <strong>$<?= $company->getLiability() ?></strong>
+	<p>Razón social: <strong><?= $company->getName() ?></strong></p>
+	<p>Dirección: <strong><?= $company->getAddress() ?></strong></p>
+	<p>RC (en pesos): <strong>$<?= $company->getLiability() ?></strong></p>
 </fieldset>
 <legend>Impuestos para coberturas</legend>
 <fieldset class="margined">
-	<p>% si es Consumidor final: <strong><?= $company->getTaxMono() ?>%</strong>
-	<p>% si es Monotributo: <strong><?= $company->getLiability() ?>%</strong>
-	<p>% si es Responsable inscripto: <strong><?= $company->getTaxResp() ?>%</strong>
+	<p>% si es Consumidor final: <strong><?= $company->getTaxMono() ?>%</strong></p>
+	<p>% si es Monotributo: <strong><?= $company->getLiability() ?>%</strong></p>
+	<p>% si es Responsable inscripto: <strong><?= $company->getTaxResp() ?>%</strong></p>
 </fieldset>
 <legend>Comisiones y descuentos</legend>
 <fieldset class="margined">
-	<p>Porcentaje de comisión para productores: <strong><?= $company->getComission() ?>%</strong>
-	<p>Porcentaje de descuento: <strong><?= $company->getDiscount() ?>%</strong>
+	<p>Porcentaje de comisión para productores: <strong><?= $company->getComission() ?>%</strong></p>
+	<p>Porcentaje de descuento: <strong><?= $company->getDiscount() ?>%</strong></p>
 </fieldset>
 <legend>Coberturas</legend>
 <?php

@@ -8,9 +8,9 @@
 </p>
 <legend>Datos Personales</legend>
 <fieldset class="margined">
-	<p>Nombre: <strong><?= $producer->getName() ?></strong>
-	<p>Apellido: <strong><?= $producer->getLastName() ?></strong>
-	<p>DNI: <strong><?= $producer->getDni() ?></strong>
-	<p>Dirección: <strong><?= $producer->getAddress() ?></strong>
-	<p>Teléfonos: <strong><?= $producer->getPhones() ?></strong>
+	<p>Nombre: <strong><?= $producer->getName() ?></strong></p>
+	<p>Apellido: <strong><?= $producer->getLastName() ?></strong></p>
+	<p>DNI: <strong><?= $producer->getDni() ?></strong></p>
+	<p>Dirección: <strong><?= $producer->getAddress() ?></strong></p>
+	<p>Teléfonos: <strong><?= $producer->getPhones() ?></strong></p>
 </fieldset>
