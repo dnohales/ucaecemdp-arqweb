@@ -9,8 +9,6 @@
 	'fields' => array(
 		'Nombre' => 'fullName',
 		'DNI' => 'dni',
-		'Coberturas' => function(){
-		},
 	)
 )); ?>
 <?php $this->endBlock() ?>
