@@ -8,7 +8,6 @@
 <?php $this->block('content') ?>
 <h1>Operaciones</h1>
 <?= $this->partial('Entity:_genericIndex', array(
-	'detailRoute' => 'operation_detail',
 	'addRoute' => 'operation_add',
 	'entities' => $operations,
 	'fields' => $tableFields,

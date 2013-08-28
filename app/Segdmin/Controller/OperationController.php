@@ -127,9 +127,13 @@ class OperationController extends Controller
 		return $this->render('Operation:remove');
 	}
     
-    public function detailAction()
+    public function detailAction($id)
 	{
-		return $this->render('Operation:edit');
+		$operation = $this->findEntity('Operation', $id);
+		
+		return $this->render('Operation:detail', array(
+			'operation' => $operation
+		));
 	}
     
     public function answerAction()

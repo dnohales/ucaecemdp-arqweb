@@ -1,4 +1,5 @@
 <?php $tableClass = isset($tableClass)? $tableClass:'' ?>
+<?php $detailRoute = isset($detailRoute)? $detailRoute:null ?>
 
 <?php if(isset($title)): //TODO: BC El título no tendría que ir ?>
 	<h1><?= $title ?></h1>
