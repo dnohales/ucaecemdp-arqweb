@@ -2,7 +2,8 @@
 namespace Segdmin\Controller;
 
 use Segdmin\Framework\Controller;
-use Segdmin\Model\Producer;
+use Segdmin\Framework\Security\Roles;
+use Segdmin\Model\Admin;
 use Segdmin\Model\User;
 
 class UserController extends Controller
@@ -13,22 +14,39 @@ class UserController extends Controller
 			'users' => $this->getOrm()->getRepository('User')->findAll()
 		));
 	}
-	
+
 	public function addAction()
 	{
 		$user = new User($this->getOrm());
 		
 		if($this->getRequest()->isPost()){
-			/*$post = $this->getRequest()->post();
-			
-			$this->bindIntoEntity($user, $post);
-			$this->getOrm()->save($user);
+			$post = $this->getRequest()->post();
 			
 			$user = new User($this->getOrm());
 			$user->setEmail($post->get('user')->get('email'));
 			$user->setPlainPassword($post->get('user')->get('password'));
-			$user->setProducer($user);
-			$this->getOrm()->save($user);*/
+			
+			switch($post->get('rol'))
+			{
+			case Roles::ADMIN:
+				$relatedAdmin = new Admin($this->getOrm());
+				$this->bindIntoEntity($relatedAdmin, $post->get('admin'));
+				$this->getOrm()->save($relatedAdmin);
+				$user->setAdmin($relatedAdmin);
+				break;
+			
+			case Roles::PRODUCER:
+				$relatedProducer = $this->findEntity('Producer', $post->get('producerId'));
+				$user->setProducer($relatedProducer);
+				break;
+			
+			case Roles::COMPANY:
+				$relatedCompany = $this->findEntity('Company', $post->get('companyId'));
+				$user->setCompany($relatedCompany);
+				break;
+			}
+			
+			$this->getOrm()->save($user);
 			
 			$this->getSession()->setFlash('success', 'Se añadió el usuario correctamente');
 			return $this->redirectByRoute('user_index');
@@ -41,33 +59,42 @@ class UserController extends Controller
     
     public function removeAction($id)
 	{
-		$producer = $this->findEntity('Producer', $id);
+		$user = $this->findEntity('User', $id);
 		
-		$this->getOrm()->remove($producer->getUser());
-		$this->getOrm()->remove($producer);
-		$this->getSession()->setFlash('success', 'El productor se ha eliminado correctamente');
-		return $this->redirectByRoute('producer_index');
+		$this->getOrm()->remove($user);
+		$this->getSession()->setFlash('success', 'El usuario se ha eliminado correctamente');
+		return $this->redirectByRoute('user_index');
 	}
 	
 	public function updateAction($id)
 	{
-		$producer = $this->findEntity('Producer', $id);
+		$user = $this->findEntity('User', $id);
 		
-		$this->bindIntoEntity($producer, $this->getRequest()->post());
-		$this->getOrm()->save($producer);
+		$post = $this->getRequest()->post();
+		if($post->get('user')->get('password') !== ''){
+			$user->setPlainPassword($post->get('user')->get('password'));
+		}
+		
+		$relatedEntity = $user->getRelatedEntity();
+		if($relatedEntity instanceof Admin && $post->has('admin')){
+			$this->bindIntoEntity($relatedEntity, $post->get('admin'));
+			$this->getOrm()->save($relatedEntity);
+		}
+		
+		$this->getOrm()->save($user);
 		$this->getSession()->setFlash('success', 'Se han guardado los cambios correctamente');
 		
-		return $this->redirectByRoute('producer_detail', array(
-			'id' => $producer->getId()
+		return $this->redirectByRoute('user_detail', array(
+			'id' => $user->getId()
 		));
 	}
     
     public function detailAction($id)
 	{
-		$producer = $this->findEntity('Producer', $id);
+		$user = $this->findEntity('User', $id);
 		
-		return $this->render('Producer:detail', array(
-			'producer' => $producer
+		return $this->render('User:detail', array(
+			'user' => $user
 		));
 	}
 }

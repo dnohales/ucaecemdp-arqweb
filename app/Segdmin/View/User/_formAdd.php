@@ -5,9 +5,9 @@
 	<label>Rol</label>
 	<select name="rol" required>
 		<option value="">Seleccione...</option>
-		<option value="admin">Administrador</option>
-		<option value="producer">Productor</option>
-		<option value="company">Compañía</option>
+		<option value="<?= Roles::ADMIN ?>">Administrador</option>
+		<option value="<?= Roles::PRODUCER ?>">Productor</option>
+		<option value="<?= Roles::COMPANY ?>">Compañía</option>
 	</select>
 </div>
 <div id="user_admin_container">

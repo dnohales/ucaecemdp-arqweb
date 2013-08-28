@@ -1,7 +1,7 @@
 <p>
 <?php if($company->getUser()): ?>
 	Usuario: <strong><?= $company->getUser()->getEmail() ?></strong>
-	&nbsp;<a href="#" title="Editar usuario" class="btn"><i class="icon icon-pencil"></i></a>
+	&nbsp;<a href="<?= $this->url('user_detail', array('id' => $company->getUser()->getId())); ?>" title="Detalles del usuario" class="btn"><i class="icon icon-search"></i></a>
 <?php else: ?>
 	Usuario: <em>Esta compañía no posee un usuario, solo un administrador puede gestionarla.</em>
 <?php endif; ?>

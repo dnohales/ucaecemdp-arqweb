@@ -2,11 +2,11 @@
 
 <?php $this->block('content') ?>
 <?= $this->partial('Entity:_genericDetail', array(
-	'entity' => $producer,
+	'entity' => $user,
 	'title' => 'Detalles del usuario',
-	'editView' => $this->partial('Producer:_form', array('producer' => $producer)),
-	'showView' => $this->partial('Producer:_show', array('producer' => $producer)),
-	'removeRoute' => 'producer_remove',
-	'updateRoute' => 'producer_update',
+	'editView' => $this->partial('User:_formUpdate', array('user' => $user)),
+	'showView' => $this->partial('User:_show', array('user' => $user)),
+	'removeRoute' => 'user_remove',
+	'updateRoute' => 'user_update',
 )) ?>
 <?php $this->endBlock() ?>

@@ -1,7 +1,7 @@
 <p>
 <?php if($producer->getUser()): ?>
 	Usuario: <strong><?= $producer->getUser()->getEmail() ?></strong>
-	&nbsp;<a href="#" title="Editar usuario" class="btn"><i class="icon icon-pencil"></i></a>
+	&nbsp;<a href="<?= $this->url('user_detail', array('id' => $producer->getUser()->getId())); ?>" title="Detalles del usuario" class="btn"><i class="icon icon-search"></i></a>
 <?php else: ?>
 	Usuario: <em>Este productor no posee un usuario, solo un administrador puede gestionarlo.</em>
 <?php endif; ?>

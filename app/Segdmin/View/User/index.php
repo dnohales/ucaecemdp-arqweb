@@ -1,5 +1,5 @@
 <?php
-use Segdmin\Framework\Security\Roles;
+use Segdmin\Helper\UserRoleAsString;
 ?>
 <?php $this->extend('Base:full') ?>
 
@@ -12,21 +12,7 @@ use Segdmin\Framework\Security\Roles;
 	'fields' => array(
 		'Correo electrónico' => 'email',
 		'Rol' => function($user){
-			switch($user->getRelatedRole())
-			{
-			case Roles::ADMIN:
-				if($user->isSuperUser()){
-					return 'Administrador principal';
-				} else {
-					return 'Administrador ('.$user->getAdmin()->getFullName().')';
-				}
-				
-			case Roles::PRODUCER:
-				return 'Productor ('.$user->getProducer()->getFullName().')';
-				
-			case Roles::COMPANY:
-				return 'Compañía ('.$user->getCompany()->getName().')';
-			}
+			return UserRoleAsString::toText($user);
 		},
 	)
 )); ?>
