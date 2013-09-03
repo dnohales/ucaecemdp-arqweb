@@ -1,10 +1,11 @@
 <?php
 namespace Segdmin\Controller;
 
+use Exception;
 use Segdmin\Framework\Controller;
-use Segdmin\Model\Coverage;
-use Segdmin\Model\Operation;
+use Segdmin\Framework\Exception\HttpException;
 use Segdmin\Framework\Security\Roles;
+use Segdmin\Model\Operation;
 
 class OperationController extends Controller
 {
@@ -36,6 +37,9 @@ class OperationController extends Controller
 			},
 			'Cobertura' => function($operation) {
 				return $operation->getCoverage()->getDescription();
+			},
+			'Fecha' => function($operation) {
+				return $operation->getCreationTime()->format('d/m/Y');
 			}
 		);
 		
@@ -45,17 +49,30 @@ class OperationController extends Controller
 			};
 		}
 		
-		if($this->isGranted('operation_answer')){
-			$controller = $this;
-			$tableFields['Acción'] = function($operation) use($controller){
-				return '<a href="#'.$operation->getId().'" class="operation-answer-btn btn btn-primary"><i></i> Aprobar/Rechazar</a> <a class="btn" href="'.$controller->generateUrl('operation_detail', array('id' => $operation->getId())).'" title="Ver detalles"><i class="icon icon-search"></i></a>';
-			};
-		} else {
-			$controller = $this;
-			$tableFields['Acción'] = function($operation) use($controller){
-				return '<a class="btn" href="'.$controller->generateUrl('operation_detail', array('id' => $operation->getId())).'" title="Ver detalles"><i class="icon icon-search"></i></a>';
-			};
-		}
+		$controller = $this;
+		$tableFields['Acción'] = function($operation) use($controller){
+			$content = '';
+
+			switch ($operation->getAcceptedState())
+			{
+			case Operation::STATE_PENDING:
+				if ($controller->isGranted('operation_answer')) {
+					$content .= '<a data-operation-id="'.$operation->getId().'" class="operation-answer-btn btn btn-primary"><i></i> Aprobar/Rechazar</a>';
+				}
+				break;
+
+			case Operation::STATE_REJECTED:
+				$content .= '<span class="operation-rejected">Rechazado</span>';
+				break;
+
+			case Operation::STATE_ACCEPTED:
+				$content .= '<span class="operation-accepted">Aceptado</span>';
+				break;
+			}
+			$content .= ' <a class="btn" href="'.$controller->generateUrl('operation_detail', array('id' => $operation->getId())).'" title="Ver detalles"><i class="icon icon-search"></i></a>';
+			
+			return $content;
+		};
 		
 		return $this->render('Operation:index', array(
 			'tableFields' => $tableFields,
@@ -115,7 +132,7 @@ class OperationController extends Controller
 		try {
 			$this->bindIntoEntity($operation, $this->getRequest()->post());
 			$totalCost = $operation->getTotalCost();
-		} catch(\Exception $e) {
+		} catch(Exception $e) {
 			$totalCost = null;
 		}
 		
@@ -136,15 +153,37 @@ class OperationController extends Controller
 		));
 	}
     
-    public function answerAction()
+    public function answerAction($id)
 	{
-		return $this->render('Operation:answer');
+		/* @var $operation Operation */
+		$operation = $this->findEntity('Operation', $id);
+		
+		switch ($this->getRequest()->post()->get('type'))
+		{
+		case 'accept':
+			$operation->accept();
+			break;
+		
+		case 'reject':
+			$operation->reject();
+			break;
+		
+		default:
+			throw new HttpException(401);
+		}
+		
+		$this->getOrm()->save($operation);
+		
+		return '{"status": "success"}';
 	}
 	
-	public function getAnswerDialogContent($id)
+	public function getAnswerDialogContentAction($id)
 	{
 		$operation = $this->findEntity('Operation', $id);
-		echo 'Y hasta acá llegamos...';
+		
+		return $this->render('Operation:_detail', array(
+			'operation' => $operation
+		));
 	}
 }
 ?>

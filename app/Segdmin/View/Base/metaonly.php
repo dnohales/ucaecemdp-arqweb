@@ -21,7 +21,9 @@
 				Globals = {};
 				Globals.routes = {
 					operation_company_info: '<?= $this->url('operation_company_info', array('id' => '{id}')) ?>',
-					operation_total_cost: '<?= $this->url('operation_total_cost') ?>'
+					operation_total_cost: '<?= $this->url('operation_total_cost') ?>',
+					operation_get_answer_dialog_content: '<?= $this->url('operation_get_answer_dialog_content', array('id' => '{id}')) ?>',
+					operation_answer: '<?= $this->url('operation_answer', array('id' => '{id}')) ?>',
 				}
 			</script>
 		<?php $this->endBlock() ?>

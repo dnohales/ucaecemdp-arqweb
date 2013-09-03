@@ -244,6 +244,13 @@ return array
 			Roles::ADMIN, Roles::COMPANY
 		)
 	),
+	'operation_get_answer_dialog_content' => array(
+		'path' => '/solicitud/{id}/dialogo_respuesta',
+		'controller' => 'Operation:getAnswerDialogContent',
+		'roles' => array(
+			Roles::ADMIN, Roles::COMPANY
+		)
+	),
 	
 	//Administración de clientes
 	'taker_index' => array(

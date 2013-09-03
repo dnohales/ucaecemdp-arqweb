@@ -170,3 +170,25 @@ div.form-row {
 	font-style: italic;
 	color: #BF0404;
 }
+
+#operation_answer_dialog footer {
+	padding: 10px;
+	border-top: lightgray solid 1px;
+	margin-top: 10px;
+}
+
+#operation_answer_dialog .loading {
+	background: url("../img/spinner.gif") no-repeat scroll 50% 50% transparent;
+    min-height: 300px;
+    min-width: 300px;
+	height: auto;
+	width: auto;
+}
+
+.operation-rejected {
+	color: firebrick;
+}
+
+.operation-accepted {
+	color: #7DAD1A;
+}

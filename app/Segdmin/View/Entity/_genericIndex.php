@@ -26,6 +26,7 @@
 		'entities' => $entities,
 		'detailRoute' => $detailRoute,
 		'fields' => $fields,
-		'class' => $tableClass
+		'class' => $tableClass,
+		'trClosure' => isset($trClosure)? $trClosure:function() { return ''; }
 	)) ?>
 </div>
