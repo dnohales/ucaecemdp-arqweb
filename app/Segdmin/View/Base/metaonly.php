@@ -16,7 +16,6 @@
 			<script type="text/javascript" src="<?= $this->asset('js/jquery.tablesorter.min.js') ?>"></script>
 			<script type="text/javascript" src="<?= $this->asset('js/jquery.tablesorter.widgets.min.js') ?>"></script>
 			<script type="text/javascript" src="<?= $this->asset('js/jquery.tablesorter.pager.min.js') ?>"></script>
-			<script type="text/javascript" src="<?= $this->asset('js/jqModal.js') ?>"></script>
 			<script type="text/javascript" src="<?= $this->asset('js/main.js') ?>"></script>
 			<script type="text/javascript">
 				Globals = {};
