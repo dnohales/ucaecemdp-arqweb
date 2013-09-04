@@ -3,11 +3,11 @@ $(function(){
 	 * Inicialización de valores personalizados en las validaciones de formularios
 	 */
 	$('input[data-custom-validity], select[data-custom-validity]').on('input', function(e){
-		e.target.setCustomValidity(null);
+		e.target.setCustomValidity('');
 		if(!e.target.checkValidity()){
 			e.target.setCustomValidity($(e.target).attr('data-custom-validity'));
 		} else {
-			e.target.setCustomValidity(null);
+			e.target.setCustomValidity('');
 		}
 	});
 	
