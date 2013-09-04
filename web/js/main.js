@@ -32,7 +32,7 @@ $(function(){
 	});
 	$('.tablesorter').each(function(){
 		$(this).tablesorter({
-			widgets: ['uitheme'],
+			widgets: ['uitheme', 'filter'],
 			widgetOptions: {
 				uitheme : "bootstrap" 
 			}
@@ -48,6 +48,14 @@ $(function(){
 		} else {
 			$(this).next('.pager').hide();
 		}
+		
+		//Super Hardcodeada!!
+		//Se quitan los filtros del campo de ID y el de acción
+		var $table = $(this);
+		$table.find('thead tr.tablesorter-headerRow th:contains(#), thead tr.tablesorter-headerRow th:contains(Acción)').each(function(){
+			$table.find('thead tr.tablesorter-filter-row td:nth-child('+($(this).index() + 1)+') input').hide();
+		});
+		
 	});
 	
 	
