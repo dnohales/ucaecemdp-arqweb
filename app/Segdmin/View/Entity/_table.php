@@ -12,7 +12,7 @@
 		<tr><td colspan="<?= count($fields) + 1 ?>">No hay resultados disponibles</td></tr>
 	<?php else: ?>
 		<?php foreach($entities as $e): ?>
-		<tr <?= $trClosure($e) ?>>
+		<tr <?= isset($trClosure)? $trClosure($e):'' ?>>
 			<td><?= $e->getId() ?></td>
 			<?php foreach(array_values($fields) as $n => $p): ?>
 				<td>

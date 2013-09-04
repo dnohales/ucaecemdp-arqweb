@@ -34,13 +34,12 @@
 		
 	if($this->isGranted('operation_add_by_coverage')){
 		$view = $this;
-		$coverageTableFields[''] = function($coverage) use($view){
-			return '<a class="btn pull-right" href="'.$view->url('operation_add_by_coverage', array('coverageId' => $coverage->getId())).'"><i class="icon icon-plus"></i> Añadir operación</a>';
+		$coverageTableFields['Acción'] = function($coverage) use($view){
+			return '<a class="btn" href="'.$view->url('operation_add_by_coverage', array('coverageId' => $coverage->getId())).'"><i class="icon icon-plus"></i> Añadir operación</a>';
 		};
 	}
 ?>
 <?= $this->partial('Entity:_table', array(
-	'class' => 'with-last-button',
 	'entities' => $company->getCoverages(),
 	'fields' => $coverageTableFields
 )); ?>

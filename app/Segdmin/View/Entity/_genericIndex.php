@@ -17,6 +17,6 @@
 		'detailRoute' => $detailRoute,
 		'fields' => $fields,
 		'class' => $tableClass,
-		'trClosure' => isset($trClosure)? $trClosure:function() { return ''; }
+		'trClosure' => isset($trClosure)? $trClosure:null
 	)) ?>
 </div>
