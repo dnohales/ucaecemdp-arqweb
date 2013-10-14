@@ -61,6 +61,10 @@ class UserController extends Controller
 	{
 		$user = $this->findEntity('User', $id);
 		
+		if ($user->isSuperUser()) {
+			throw $this->createForbbidenException();
+		}
+		
 		$this->getOrm()->remove($user);
 		$this->getSession()->setFlash('success', 'El usuario se ha eliminado correctamente');
 		return $this->redirectByRoute('user_index');

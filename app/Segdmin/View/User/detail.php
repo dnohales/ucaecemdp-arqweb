@@ -7,6 +7,7 @@
 	'editView' => $this->partial('User:_formUpdate', array('user' => $user)),
 	'showView' => $this->partial('User:_show', array('user' => $user)),
 	'removeRoute' => 'user_remove',
+	'canRemove' => !$user->isSuperUser(),
 	'updateRoute' => 'user_update',
 )) ?>
 <?php $this->endBlock() ?>
